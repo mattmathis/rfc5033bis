@@ -80,6 +80,7 @@ Table of Contents
      7.2.  Informative References
    Acknowledgments
    Evolution of RFC5033bis
+     Since draft-ietf-ccwg-rfc5033bis-01
      Since draft-ietf-ccwg-rfc5033bis-00
      Since draft-scheffenegger-congress-rfc5033bis-00
      Since RFC5033
@@ -672,6 +673,10 @@ Acknowledgments
    *  Dave Taht
 
 Evolution of RFC5033bis
+
+Since draft-ietf-ccwg-rfc5033bis-01
+
+   *  Added discussion of multipath transports
 
 Since draft-ietf-ccwg-rfc5033bis-00
 
