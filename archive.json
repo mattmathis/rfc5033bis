@@ -1,0 +1,1964 @@
+{
+  "magic": "E!vIA5L86J2I",
+  "timestamp": "2023-10-19T00:35:10.034878+00:00",
+  "repo": "ietf-wg-ccwg/rfc5033bis",
+  "labels": [
+    {
+      "name": "bug",
+      "description": "Something isn't working",
+      "color": "d73a4a"
+    },
+    {
+      "name": "documentation",
+      "description": "Improvements or additions to documentation",
+      "color": "0075ca"
+    },
+    {
+      "name": "duplicate",
+      "description": "This issue or pull request already exists",
+      "color": "cfd3d7"
+    },
+    {
+      "name": "enhancement",
+      "description": "New feature or request",
+      "color": "a2eeef"
+    },
+    {
+      "name": "good first issue",
+      "description": "Good for newcomers",
+      "color": "7057ff"
+    },
+    {
+      "name": "help wanted",
+      "description": "Extra attention is needed",
+      "color": "008672"
+    },
+    {
+      "name": "invalid",
+      "description": "This doesn't seem right",
+      "color": "e4e669"
+    },
+    {
+      "name": "question",
+      "description": "Further information is requested",
+      "color": "d876e3"
+    },
+    {
+      "name": "wontfix",
+      "description": "This will not be worked on",
+      "color": "ffffff"
+    },
+    {
+      "name": "Needs Discussion",
+      "description": "",
+      "color": "B33ADE"
+    }
+  ],
+  "issues": [
+    {
+      "number": 1,
+      "id": "I_kwDOI7aIXc5eKnqg",
+      "title": "add QUIC as protocol using guidance from here",
+      "url": "https://github.com/ietf-wg-ccwg/rfc5033bis/issues/1",
+      "state": "CLOSED",
+      "author": "rscheff",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "martinduke"
+      ],
+      "labels": [],
+      "body": "at the time 5033 was written, only TCP, DCCP and SCTP were around, using CC; nowadays, many more protocols use CC - with QUIC standing out as a here, probably warranting it's explicit mentioning.\r\n",
+      "createdAt": "2023-02-10T15:05:32Z",
+      "updatedAt": "2023-10-13T20:42:36Z",
+      "closedAt": "2023-10-13T20:42:35Z",
+      "comments": [
+        {
+          "author": "huitema",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Yes. Note that there is a bit of sadness here, because QUIC was forced to describe use of Reno in RFC 9002, while most deployments use Cubic or BBR. But the WG could not go beyond Reno... because of RFC 5033!",
+          "createdAt": "2023-02-18T08:48:12Z",
+          "updatedAt": "2023-02-18T08:48:12Z"
+        },
+        {
+          "author": "huitema",
+          "authorAssociation": "COLLABORATOR",
+          "body": "This one seems simple, but is not. The introduction text says:\r\n~~~\r\n: Impact on Standard TCP, SCTP {{!RFC2960}}, and DCCP {{!RFC4340}}.\r\n~~~\r\nThis formulation, \"Impact on standard TCP\", assumes that the congestion control algorithm is an integral part of the TCP specification. The situation has changed, and I think this part should be rewritten as:\r\n~~~\r\n: Impact on existing deployments of TCP,  SCTP {{!RFC2960}}, QUIC {{!RFC9000}} and DCCP {{!RFC4340}}.\r\n~~~\r\nThe reference here should be RFC9000, the specification of the transport protocol, rather than RFC9002, the specification of default loss recovery and congestion control algorithms. And the text should then be modified to mention that our goal is to not wantonly disrupt existing deployments -- whether they use Reno, Cubic or BBR. The point is \"don't disrupt the Internet\", not \"don't offend the pride of the IETF\".",
+          "createdAt": "2023-08-22T00:36:12Z",
+          "updatedAt": "2023-08-22T00:36:12Z"
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "id": "I_kwDOI7aIXc5eKoQ3",
+      "title": "Include Multi-Path (MP) CC into the scope of the document?",
+      "url": "https://github.com/ietf-wg-ccwg/rfc5033bis/issues/2",
+      "state": "OPEN",
+      "author": "rscheff",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "gorryfair"
+      ],
+      "labels": [
+        "Needs Discussion"
+      ],
+      "body": "MP variants of TCP and QUIC, as well as SCTP may see some deployments - should this document mention something aroud coupled congestion control vs. single path congestion control also?",
+      "createdAt": "2023-02-10T15:06:38Z",
+      "updatedAt": "2023-10-16T15:06:42Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "VMatrix1900",
+          "authorAssociation": "NONE",
+          "body": "Yes. But we should note that it is still in research.",
+          "createdAt": "2023-02-13T03:01:39Z",
+          "updatedAt": "2023-02-13T03:01:39Z"
+        },
+        {
+          "author": "huitema",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I have mixed feelings there. If users have payed for a wireless subscription and a land line subscription, why should they not use the full capacity of both paths? I see the \"selfish\" case for proper scheduling, such as not sending delay sensitive traffic on a lossy path. But I don't see anything with the same moral level as \"don't cause congestion\" or \"don't cause buffer bloat\".",
+          "createdAt": "2023-02-18T08:45:10Z",
+          "updatedAt": "2023-02-18T08:45:23Z"
+        },
+        {
+          "author": "ekinnear",
+          "authorAssociation": "NONE",
+          "body": "Discussed at IETF 117: \r\n- Christian: Not enough info to make a recommendation\r\n- Gorry: We should think about it\r\n- Ian: Inclination is that we don't have enough information to make a recommendation\r\n- Matt: Impact is no worse than browsers using multiple connections",
+          "createdAt": "2023-07-25T22:18:30Z",
+          "updatedAt": "2023-07-25T22:18:30Z"
+        },
+        {
+          "author": "martinduke",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Gorry will take a look if he has anything constructive to write here; if so, we will run the text by the community. otherwise, close with no action.",
+          "createdAt": "2023-08-21T17:37:15Z",
+          "updatedAt": "2023-08-21T17:37:15Z"
+        },
+        {
+          "author": "gorryfair",
+          "authorAssociation": "COLLABORATOR",
+          "body": "See PR #20 for some initial text.",
+          "createdAt": "2023-08-29T08:49:14Z",
+          "updatedAt": "2023-08-29T08:49:14Z"
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "id": "I_kwDOI7aIXc5exgu2",
+      "title": "include guidance from rfc7141",
+      "url": "https://github.com/ietf-wg-ccwg/rfc5033bis/issues/3",
+      "state": "OPEN",
+      "author": "rscheff",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "martinduke"
+      ],
+      "labels": [],
+      "body": "rfc7141 partially updates rfc5033; include relevant sections in the -bis document",
+      "createdAt": "2023-02-17T22:36:13Z",
+      "updatedAt": "2023-10-16T15:12:25Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "martinduke",
+          "authorAssociation": "COLLABORATOR",
+          "body": "7141 does not mention 5033, so can you be more specific?",
+          "createdAt": "2023-07-21T18:18:31Z",
+          "updatedAt": "2023-07-21T18:18:31Z"
+        },
+        {
+          "author": "martinduke",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Oct 12: Pinged @rscheff to follow up",
+          "createdAt": "2023-10-12T18:22:22Z",
+          "updatedAt": "2023-10-12T18:22:22Z"
+        },
+        {
+          "author": "rscheff",
+          "authorAssociation": "COLLABORATOR",
+          "body": "IIRC, it was due to rfc7141 updating rfc2914; rfc2914 is mentioned and referenced at numerous points throughout the 5033 document.\r\n\r\n5033bis should heed the advice from 7141 around marking probabiliy taking into consideration packet sizes rather than only the packets themselves. At least this train of thought is the most likely one, which was had in my mind at the time.",
+          "createdAt": "2023-10-16T09:48:58Z",
+          "updatedAt": "2023-10-16T09:48:58Z"
+        },
+        {
+          "author": "martinduke",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Editors: we suspect that this question is orthogonal to the purpose of this document; will look more carefully at the reference.",
+          "createdAt": "2023-10-16T15:12:18Z",
+          "updatedAt": "2023-10-16T15:12:18Z"
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "id": "I_kwDOI7aIXc5eyTfH",
+      "title": "What about Cubic and BBR?",
+      "url": "https://github.com/ietf-wg-ccwg/rfc5033bis/issues/4",
+      "state": "CLOSED",
+      "author": "huitema",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "huitema"
+      ],
+      "labels": [],
+      "body": "When reading the document status section, that was my first reaction. The purpose of the document is to provide guidelines about protocols that are deemed safe for the Internet, with the assumption that wide scale deployments will only happen after approval by the IETF. With Cubic and BBR we have two examples of massive deployments without any such formal approval. In fact, discussions in the IETF would have quickly pointed out issues such as Cubic amplifying buffer bloat, or BBR having no particular guarantee of fairness, even when sharing with itself. Yet both protocols have been deployed at massive scale. What does that say about the \"real\" status of this document?",
+      "createdAt": "2023-02-18T07:29:45Z",
+      "updatedAt": "2023-08-31T17:54:42Z",
+      "closedAt": "2023-08-31T17:54:42Z",
+      "comments": [
+        {
+          "author": "NicoKos",
+          "authorAssociation": "NONE",
+          "body": "This is a very good point. I feel that the document could at least mention this issue.",
+          "createdAt": "2023-02-20T07:38:17Z",
+          "updatedAt": "2023-02-20T07:38:17Z"
+        },
+        {
+          "author": "acbegen",
+          "authorAssociation": "NONE",
+          "body": "It need to acknowledge it not just mention. There are so many different types of networks and applications (or services) where some of the \"hard\" rules can be easily bent. Not accepting that does not change the fact.",
+          "createdAt": "2023-02-20T22:21:18Z",
+          "updatedAt": "2023-02-20T22:21:18Z"
+        },
+        {
+          "author": "martinduke",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Is the intent to mention these non-IETF projects as motivation, or adjust the normative parts in some way?",
+          "createdAt": "2023-08-21T17:40:01Z",
+          "updatedAt": "2023-08-21T17:40:01Z"
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "id": "I_kwDOI7aIXc5eyT7H",
+      "title": "What does impact on transport protocols mean?",
+      "url": "https://github.com/ietf-wg-ccwg/rfc5033bis/issues/5",
+      "state": "OPEN",
+      "author": "huitema",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "gorryfair"
+      ],
+      "labels": [],
+      "body": "The Guidelines section asks developers of new congestion control algorithms to discuss the \"Impact on Standard TCP, SCTP [[RFC2960](https://rscheff.github.io/rfc5033bis/draft-scheffenegger-congress-rfc5033bis.html#RFC2960)], and DCCP [[RFC4340](https://rscheff.github.io/rfc5033bis/draft-scheffenegger-congress-rfc5033bis.html#RFC4340)].\" Maybe I am overly sensitive, but this way of discussing the issue feels dated, from a time when transport and congestion control where specified jointly. I think that ceased to be the case many years ago, for example with implementations of TCP providing choices between multiple congestion algorithms. (Indeed, DCCP itself provides a choice between two algorithms.) The Bis draft should probably present the issue differently.",
+      "createdAt": "2023-02-18T07:37:45Z",
+      "updatedAt": "2023-10-18T06:44:30Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "NicoKos",
+          "authorAssociation": "NONE",
+          "body": "Speaking of fairness, I also wonder if there is an accurate definition for it. \r\nThere has been activity on the topic at the IETF (on in academia) : \r\nhttps://datatracker.ietf.org/doc/html/draft-briscoe-tsvarea-fair-02 \r\nhttps://datatracker.ietf.org/doc/html/draft-briscoe-tsvwg-relax-fairness-01\r\nhttps://dl.acm.org/doi/abs/10.1145/3487552.3487834 \r\n\r\nshould this be discussed in the draft ?",
+          "createdAt": "2023-02-20T07:43:52Z",
+          "updatedAt": "2023-02-20T07:43:52Z"
+        },
+        {
+          "author": "ekinnear",
+          "authorAssociation": "NONE",
+          "body": "Discussed at IETF 117: \r\n- Matt: Replace fairness with freedom from starvation. Fairness only makes sense at low bandwidth.\r\n- Christian: Not focus entirely at fairness, non-starvation goal is good.\r\n- Gorry: Suggestion to put it in other draft, but not in this one\r\n\r\nOverall, get rid of it all together for now",
+          "createdAt": "2023-07-25T22:20:28Z",
+          "updatedAt": "2023-07-25T22:20:28Z"
+        },
+        {
+          "author": "mirjak",
+          "authorAssociation": "NONE",
+          "body": "In academia a next metric is to look at harm rather than fairness: https://dl.acm.org/doi/10.1145/3365609.3365855",
+          "createdAt": "2023-08-10T19:10:34Z",
+          "updatedAt": "2023-08-10T19:10:34Z"
+        },
+        {
+          "author": "huitema",
+          "authorAssociation": "COLLABORATOR",
+          "body": "That's a pretty good reference, Mirja!",
+          "createdAt": "2023-08-10T20:06:22Z",
+          "updatedAt": "2023-08-10T20:06:22Z"
+        },
+        {
+          "author": "huitema",
+          "authorAssociation": "COLLABORATOR",
+          "body": "The reality is that Cubic has a horrific effect on the Internet: it is pretty efficient at building queues and making life terrible for others. The classic example is the parent busy on a video conference from home, and then seeing the perceived quality go down sharply because the teenager started downloading a movie...\r\n\r\nWhich means I would take \"fairness with Cubic\" with a huge grain of salt. As is, yes, let it run and get some bandwidth, but make sure that it gets seriously penalized, so there is an incentive to replace it by something better... ",
+          "createdAt": "2023-08-10T20:10:20Z",
+          "updatedAt": "2023-08-10T20:10:20Z"
+        },
+        {
+          "author": "mattmathis",
+          "authorAssociation": "COLLABORATOR",
+          "body": "A more serious problem is harm to tiny transactions using any protocol.   They have to rely on timeouts for loss recovery.  I suggest replacing this with absolute upper bounds on loss rates.   E..g. see:  https://datatracker.ietf.org/doc/html/draft-mathis-tsvwg-safecc#name-bound-steady-state-losses\r\n\r\nLikewise for excessive standing queues, and to a lessor extent excessive CE marks. ",
+          "createdAt": "2023-10-18T06:44:30Z",
+          "updatedAt": "2023-10-18T06:44:30Z"
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "id": "I_kwDOI7aIXc5eyUJt",
+      "title": "Wireless links are not special cases.",
+      "url": "https://github.com/ietf-wg-ccwg/rfc5033bis/issues/6",
+      "state": "CLOSED",
+      "author": "huitema",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "martinduke"
+      ],
+      "labels": [],
+      "body": "The guidelines section as discussion of \"Difficult Environments\", starting with \"The proposed algorithms should be assessed in difficult environments such as paths containing wireless links.\"  Opinion may vary, but wireless links are probably now part of something between \"a vast majority\" and \"a plurality\" of the paths on the Internet.",
+      "createdAt": "2023-02-18T07:42:31Z",
+      "updatedAt": "2023-09-21T20:59:33Z",
+      "closedAt": "2023-09-21T20:59:33Z",
+      "comments": [
+        {
+          "author": "VMatrix1900",
+          "authorAssociation": "NONE",
+          "body": "I agree. Wireless serves the vast majority and are still increasing. ",
+          "createdAt": "2023-02-20T08:47:24Z",
+          "updatedAt": "2023-02-20T08:47:24Z"
+        },
+        {
+          "author": "martinduke",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Gorry and Martin: wireless constraints deserve their own section. Three different phenomena to discuss\r\n- Non-congestion loss\r\n-  Variable bandwidth on the path\r\n- Jitter due to media access and link-layer retransmission",
+          "createdAt": "2023-08-21T17:46:56Z",
+          "updatedAt": "2023-08-21T17:46:56Z"
+        }
+      ]
+    },
+    {
+      "number": 7,
+      "id": "I_kwDOI7aIXc5eyUqp",
+      "title": "Active Queue Management was not common back then",
+      "url": "https://github.com/ietf-wg-ccwg/rfc5033bis/issues/7",
+      "state": "OPEN",
+      "author": "huitema",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "martinduke"
+      ],
+      "labels": [
+        "Needs Discussion"
+      ],
+      "body": "The guideline section discusses \"Investigating a Range of Environments\", with a focus especially on \"Random Early Detection (RED) [[FJ03](https://rscheff.github.io/rfc5033bis/draft-scheffenegger-congress-rfc5033bis.html#FJ03)] and Drop-Tail.\" The IETF and the IRTF have produced several different proposals for Active Queue management, with somewhat different characteristics. Interestingly, there is a tension there between developing Queue Management that \"plays well\" with existing congestion control algorithms, and developing congestion control algorithms that \"take advantage\" of AQM. Not sure what to say there, but at a minimum we should develop expectations about \"signals\" produced by AQM (e.g., the ECN markings of L4S) and reaction by congestion control algorithms.\r\n\r\nTo go further, the could be a discussion of \"honest signals\", such as delays, that are very hard to \"fake\" in routing nodes, other signals such as ECN marks that could be produced by the network at very little cost, and packet losses that fall kind of in between. But we are not writing for the IRTF, so this could be kept brief.",
+      "createdAt": "2023-02-18T07:52:23Z",
+      "updatedAt": "2023-09-18T15:18:19Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "NicoKos",
+          "authorAssociation": "NONE",
+          "body": "On the topic of AQM, IETF published Characterization Guidelines (RFC7928) and Recommendations (RFC7567) that could be exploited for further discussions in this work. ",
+          "createdAt": "2023-02-20T04:58:28Z",
+          "updatedAt": "2023-02-20T04:58:28Z"
+        },
+        {
+          "author": "martinduke",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Martin and Gorry: \r\n- add a reference to 7567 to AQM behavior and evaluation criteria, which is not in scope for this document\r\n- talk about evaluating CC interaction with AQM",
+          "createdAt": "2023-08-21T17:51:45Z",
+          "updatedAt": "2023-08-21T17:51:45Z"
+        },
+        {
+          "author": "martinduke",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Something like \"CCs should be evaluated against AQMs that are prevalent in the internet\"  -- is there a reference that provides a taxonomy?",
+          "createdAt": "2023-08-21T17:54:15Z",
+          "updatedAt": "2023-08-21T17:54:15Z"
+        },
+        {
+          "author": "martinduke",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Editors:\r\nFQ-CoDel, PIE, L4S (RFC9332) have RFCs\r\nAre the others that should be evaluated, and do they have available specs?\r\n\r\n",
+          "createdAt": "2023-09-18T15:18:08Z",
+          "updatedAt": "2023-09-18T15:18:08Z"
+        }
+      ]
+    },
+    {
+      "number": 8,
+      "id": "I_kwDOI7aIXc5eyVEx",
+      "title": "Bufferbloat is now just as much a concern as congestion collapse",
+      "url": "https://github.com/ietf-wg-ccwg/rfc5033bis/issues/8",
+      "state": "CLOSED",
+      "author": "huitema",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "martinduke"
+      ],
+      "labels": [
+        "question"
+      ],
+      "body": "I do remember observing congestion collapse with pre-VJ TCP interacting very poorly with low bandwidth X.25 links. So, yes, don't do that. But buffer bloat, or more specifically long queuing delays, is probably now just as much a concern as congestion collapse. Today, nodes that generate traffic without paying attention to the impact on delays are arguably causing \"buffer bloat collapse\", i.e., rendering a shared path unusable for delay sensitive traffic. Algorithm like Reno or Cubic are major offenders, because they only slow down when packets start getting lost, and thus will effectively fill up all available buffers.",
+      "createdAt": "2023-02-18T07:59:13Z",
+      "updatedAt": "2023-08-31T17:55:00Z",
+      "closedAt": "2023-08-31T17:55:00Z",
+      "comments": [
+        {
+          "author": "VMatrix1900",
+          "authorAssociation": "NONE",
+          "body": "L4S isolates the buffer for low latency flow. ",
+          "createdAt": "2023-02-20T08:26:14Z",
+          "updatedAt": "2023-02-20T08:26:14Z"
+        },
+        {
+          "author": "gorryfair",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I am not at all convinced that \"Bufferbloat is now just as much a concern as congestion collapse\", that seems like a very bold statement. Starving flows of capacity... and even starving control flows... is still something that we really ought to be concerned about. That said, this does not apply everywhere and most places our existing strategies have been working well.\r\n\r\nLatency is also important!",
+          "createdAt": "2023-08-16T12:03:50Z",
+          "updatedAt": "2023-08-16T12:03:50Z"
+        },
+        {
+          "author": "martinduke",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Will add some text about the importance of latency/bufferbloat.\r\n\r\nA difficult question: how good is good enough? Cubic is pretty bad: is a proposal that is no worse than Cubic adequate given the status quo in the internet?",
+          "createdAt": "2023-08-21T18:03:23Z",
+          "updatedAt": "2023-08-21T18:03:23Z"
+        },
+        {
+          "author": "huitema",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Cubic and Reno are both pretty bad, and I would very much like to see them replaced by something better. I very much would like to say something like \"Reno and Cubic cause bufferbloat, new algorithms such as BBR do not, and the new algorithms should be preferred.\" I would have liked to also recommend L4S/Prague, but if the network does not provide ECN feedback L4S falls back to Reno, and that's not good. And to answer the direct question from @martinduke, \"no worse than Cubic\" is not an acceptable bar.\r\n\r\nI can see different congestion control algorithms reacting to three kinds of feedback: packet losses, delay increases, and ECN marks. IMHO, modern algorithms should react to all three. There is a tricky part there because all three signals are subject to some amount of noise: we observe non-congestion losses and delay jitter on some wireless links, and with L4S we will observe some ECN marks before congestion is significant. That's why we probably need to speak about frequency, and state that congestion control algorithms should back off if they observe significant increase in the frequency of packet losses, increase of the RTT, or increase in the frequency of ECN marks.\r\n\r\nThe bufferbloat issue is particularly evident during slow-start or start-up. The good news there is that Hystart++ does a pretty good job of backing off before causing actual congestion. BBRv2 is almost there too.\r\n\r\n\r\n\r\n\r\n",
+          "createdAt": "2023-08-21T18:32:18Z",
+          "updatedAt": "2023-08-21T18:32:18Z"
+        }
+      ]
+    },
+    {
+      "number": 9,
+      "id": "I_kwDOI7aIXc5eyXQh",
+      "title": "The tension between fairness and scaling",
+      "url": "https://github.com/ietf-wg-ccwg/rfc5033bis/issues/9",
+      "state": "OPEN",
+      "author": "huitema",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "gorryfair"
+      ],
+      "labels": [],
+      "body": "One of the guidelines is \"Fairness within the Alternate Congestion Control Algorithm\". This a great consideration, but behind that are quite a few problems. The classic fairness evaluation derives from the equation about asymptotic behavior drawn by Matt Mathis, which end up requiring a non linear response to the frequency of a control signal such as packet loss or ECN marks. There are of course two problems. First, time scale, because many connections don't last long enough to approach asymptotic behavior. Second, scaling, as discussed for example in RFC3649. If an algorithm requires ever increasing spacing between control events to sustain larger data rates, then the control loop becomes very long, or, in the case of packet losses very noisy as \"true\" control events get intermixed with random losses.\r\n\r\nIn contrast, algorithms with linear response scale very well, but do not naturally provide fairness. Which is kind of a bummer, and also a research topic. I think the Bis draft will have to recognize that tension somehow, and encourage experimentation.",
+      "createdAt": "2023-02-18T08:36:59Z",
+      "updatedAt": "2023-10-16T15:19:17Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 10,
+      "id": "I_kwDOI7aIXc5eyYAL",
+      "title": "Should we say something about short duration connections?",
+      "url": "https://github.com/ietf-wg-ccwg/rfc5033bis/issues/10",
+      "state": "OPEN",
+      "author": "huitema",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "martinduke"
+      ],
+      "labels": [],
+      "body": "In the Internet, most connections never exit Slow-Start. RFC 5033 kind of explicitly focuses on the long duration connections, because at the time of writing the accepted rule was that the 10% long duration connections were were causing 90% of traffic. I don't know whether that's still true.",
+      "createdAt": "2023-02-18T08:51:33Z",
+      "updatedAt": "2023-09-18T15:25:34Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "VMatrix1900",
+          "authorAssociation": "NONE",
+          "body": "With the usage of QUIC, more short-lived connections are aggregated into a long connection.",
+          "createdAt": "2023-02-20T08:44:44Z",
+          "updatedAt": "2023-02-20T08:44:44Z"
+        }
+      ]
+    },
+    {
+      "number": 11,
+      "id": "I_kwDOI7aIXc5fSKC5",
+      "title": "Keep flows desynchronized during congestion",
+      "url": "https://github.com/ietf-wg-ccwg/rfc5033bis/issues/11",
+      "state": "OPEN",
+      "author": "rscheff",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "martinduke"
+      ],
+      "labels": [],
+      "body": "When queue saturation happens, aim to keep CC reaction desynchronized as much as possible - with tail drop this is not really possible, but AQM especially with ECN may be able to do this.",
+      "createdAt": "2023-02-24T13:06:50Z",
+      "updatedAt": "2023-10-16T15:22:56Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "huitema",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@rscheff should we make recommendations for AQM in this document? I don't think we can, but I may be wrong. Of course we could consider some kind of randomization by the end points, but do we have examples of implementations?",
+          "createdAt": "2023-08-26T05:17:21Z",
+          "updatedAt": "2023-08-26T05:17:21Z"
+        },
+        {
+          "author": "martinduke",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Related to #7 ",
+          "createdAt": "2023-10-16T15:22:49Z",
+          "updatedAt": "2023-10-16T15:22:49Z"
+        }
+      ]
+    },
+    {
+      "number": 13,
+      "id": "I_kwDOI7aIXc5qTstz",
+      "title": "Sally Floyd",
+      "url": "https://github.com/ietf-wg-ccwg/rfc5033bis/issues/13",
+      "state": "CLOSED",
+      "author": "gregbo",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Sally Floyd is listed as an author, but she is deceased.  I tried sending email to the given icir.org address, to see if it is monitored, at least, because someone who is not familiar with her might want to contact her using that address.  I received an automated response from googlemail.com indicating that the message bounced due to organizational settings.  If there is a desire to honor her accomplishments by including her as an author, I think that's fine, but perhaps another email address should be given that can provide assistance.",
+      "createdAt": "2023-07-01T05:49:35Z",
+      "updatedAt": "2023-08-08T20:44:09Z",
+      "closedAt": "2023-08-08T20:44:09Z",
+      "comments": [
+        {
+          "author": "martinduke",
+          "authorAssociation": "COLLABORATOR",
+          "body": "IMO it is presumptuous to list her as an author. She should absolutely be in the acknowledgements.",
+          "createdAt": "2023-07-21T14:47:36Z",
+          "updatedAt": "2023-07-21T14:47:36Z"
+        },
+        {
+          "author": "gregbo",
+          "authorAssociation": "NONE",
+          "body": "OK, sounds reasonable. I spoke with Jean Mahoney of AMS about it, and was advised it should be handled the same way they handled Jon Postel's contributions as an acknowledgement in RFC 9293.",
+          "createdAt": "2023-07-25T00:22:44Z",
+          "updatedAt": "2023-07-25T00:22:44Z"
+        },
+        {
+          "author": "ekinnear",
+          "authorAssociation": "NONE",
+          "body": "For context, the text in [RFC 9293](https://www.rfc-editor.org/rfc/rfc9293.html#name-acknowledgments) is: \r\n> This document is largely a revision of RFC 793, of which Jon Postel was the editor. Due to his excellent work, it was able to last for three decades before we felt the need to revise it.\r\n",
+          "createdAt": "2023-07-25T22:37:25Z",
+          "updatedAt": "2023-07-25T22:37:25Z"
+        }
+      ]
+    },
+    {
+      "number": 14,
+      "id": "I_kwDOI7aIXc5sPYJP",
+      "title": "Update references",
+      "url": "https://github.com/ietf-wg-ccwg/rfc5033bis/issues/14",
+      "state": "CLOSED",
+      "author": "martinduke",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "martinduke"
+      ],
+      "labels": [],
+      "body": "A bunch of the references have been obsoleted, e.g. RFC 2960 for SCTP is now RFC 9260.",
+      "createdAt": "2023-07-21T15:08:02Z",
+      "updatedAt": "2023-10-13T20:43:01Z",
+      "closedAt": "2023-10-13T20:43:01Z",
+      "comments": [
+        {
+          "author": "martinduke",
+          "authorAssociation": "COLLABORATOR",
+          "body": "closed via #24",
+          "createdAt": "2023-10-13T20:43:01Z",
+          "updatedAt": "2023-10-13T20:43:01Z"
+        }
+      ]
+    },
+    {
+      "number": 16,
+      "id": "I_kwDOI7aIXc5tfVDw",
+      "title": "Add high-level motivation and intention for revising",
+      "url": "https://github.com/ietf-wg-ccwg/rfc5033bis/issues/16",
+      "state": "CLOSED",
+      "author": "theri",
+      "authorAssociation": "NONE",
+      "assignees": [
+        "martinduke"
+      ],
+      "labels": [],
+      "body": "Let's add text to the Introduction with our motivation and intention for revising RFC 5033, i.e., why and what do we want to update. The goal is to improve our alignment early on.\r\nThis text could draw from the CCWG charter and prior discussions.",
+      "createdAt": "2023-08-04T15:10:15Z",
+      "updatedAt": "2023-10-13T10:51:48Z",
+      "closedAt": "2023-10-13T10:51:48Z",
+      "comments": []
+    },
+    {
+      "number": 19,
+      "id": "I_kwDOI7aIXc5u5WB7",
+      "title": "Someone with admin privilege should check how this repo is set",
+      "url": "https://github.com/ietf-wg-ccwg/rfc5033bis/issues/19",
+      "state": "CLOSED",
+      "author": "huitema",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "theri"
+      ],
+      "labels": [],
+      "body": "I just entered a couple of PR, and the final github action fails. I suspect this is an issue of rights and privileges for github actions writing to gh-pages, but only an admin has the rights to check that.",
+      "createdAt": "2023-08-22T04:32:30Z",
+      "updatedAt": "2023-10-16T15:23:20Z",
+      "closedAt": "2023-10-16T15:23:20Z",
+      "comments": [
+        {
+          "author": "theri",
+          "authorAssociation": "NONE",
+          "body": "I just changed the Workflow permissions to \"Read and Write\" according to [this page](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-github-actions-settings-for-a-repository#configuring-the-default-github_token-permissions) on the organization level.\r\nAccording to the [Deploy to Github pages tutorial](https://github.com/marketplace/actions/deploy-to-github-pages), this is a necessary step to get it to work.\r\n\r\nIs it working now?",
+          "createdAt": "2023-09-18T19:31:20Z",
+          "updatedAt": "2023-09-18T19:31:20Z"
+        }
+      ]
+    },
+    {
+      "number": 21,
+      "id": "I_kwDOI7aIXc5vxaEr",
+      "title": "We ought to explain the importance of starvation prevention more than the measure of fairness",
+      "url": "https://github.com/ietf-wg-ccwg/rfc5033bis/issues/21",
+      "state": "OPEN",
+      "author": "gorryfair",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "gorryfair"
+      ],
+      "labels": [
+        "Needs Discussion"
+      ],
+      "body": "Issue possibly related to #9, but more focussed on refocus away from a fairness evaluation.\r\n\r\nWhen a transport uses a path to send packets (i.e. a flow), this can impact other Internet flows (possibly from or to other endpoints) that share the capacity of any common network device or link (i.e., are multiplexed) along the path.  In turn, this can result in variation in capacity, loss, or additional latency. Transports and network layer scheduling can be designed to offer fairness between sharing flows. This comes with both strengths and weaknesses - it can reduce collateral damage to other flows; but it also can motivate the use of additional flows to gain additional network resource. \r\n\r\n* Transport proposals need to be evaluate and avoid inducing flow starvation to the other flows that share resources along the path they use.\r\n* Transports proposals need to be evaluate and ensure they treat a loss of all feedback (e.g., expiry of a retransmission time out) as an indication of persistent congestion.",
+      "createdAt": "2023-08-31T10:16:35Z",
+      "updatedAt": "2023-10-16T15:19:00Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "martinduke",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Gorry will start with a PR that defines the terms; then we can talk about what to emphasize.",
+          "createdAt": "2023-10-16T15:17:45Z",
+          "updatedAt": "2023-10-16T15:17:45Z"
+        },
+        {
+          "author": "martinduke",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Also #5 is related",
+          "createdAt": "2023-10-16T15:19:00Z",
+          "updatedAt": "2023-10-16T15:19:00Z"
+        }
+      ]
+    },
+    {
+      "number": 25,
+      "id": "I_kwDOI7aIXc5v1pN8",
+      "title": "real-time congestion controls",
+      "url": "https://github.com/ietf-wg-ccwg/rfc5033bis/issues/25",
+      "state": "OPEN",
+      "author": "martinduke",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "martinduke"
+      ],
+      "labels": [],
+      "body": "Condition (1) is concerned with the behavior with respect to Reno and, thanks to our edits, Cubic. But there are of course other congestion controls out there, both standard and non-standard, in support of real-time and other non-greedy applications. Should we mention those as a class? Namecheck some examples?",
+      "createdAt": "2023-08-31T21:20:52Z",
+      "updatedAt": "2023-10-16T15:27:00Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "martinduke",
+          "authorAssociation": "COLLABORATOR",
+          "body": "editors meeting\r\n8836 requirements document\r\n8867 and 8868 are test cases, but informational.\r\n\r\nReese: standard stuff is not widely deployed, widely deployed stuff is not standardized.\r\nBut RMCAT is new.\r\n\r\nMaybe there aren't well-documented protocols to evaluate vs., so it's hard to require anything here.\r\n\r\nI'll take a look, will probably have to go to the community.",
+          "createdAt": "2023-09-18T15:36:18Z",
+          "updatedAt": "2023-09-18T15:36:18Z"
+        },
+        {
+          "author": "martinduke",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Editors:\r\n- We need to consider the interaction between real time and not-real time\r\n- is evaluating real-time in scope? See 8836, 8867, 8868.",
+          "createdAt": "2023-10-16T15:27:00Z",
+          "updatedAt": "2023-10-16T15:27:00Z"
+        }
+      ]
+    },
+    {
+      "number": 27,
+      "id": "I_kwDOI7aIXc5v6nf4",
+      "title": "Reorganize \"Guidelines\" and \"Minimum Requirements\"",
+      "url": "https://github.com/ietf-wg-ccwg/rfc5033bis/issues/27",
+      "state": "OPEN",
+      "author": "martinduke",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "martinduke"
+      ],
+      "labels": [],
+      "body": "The guidelines overlap in odd ways. The first one is essentially TCP-friendliness, and I guess it's implied to be talking about \"normal\" wired networks. Then different guidelines say the algorithm should be evaluated with all sorts of environments and/or link parameters, presumably for friendliness.\r\n\r\nThen, in \"Minimum Requirements\" some of these are listed as mandatory to satisfy, and the rest as something the submitter has to report on, but the community may decide to accept even if it's bad.\r\n\r\nThere are several different concepts that are being muddled here. Alternatively, we can structure it as follows:\r\n\r\n(A) Metrics to evaluate\r\n- Does the new algorithm match its share of the existing bottleneck bandwith better than existing algorithms? (not underutilizing, not bufferbloating or congestion collapsing) in isolation or with multiple flows?\r\n- Are flows using widely deployed algorithms not severely degraded by the introduction of the new algorithm?\r\n- Is there a plausible incremental deployment plan?\r\n- Something about short flows?\r\n\r\n(B) Mandatory Domains: must answer positively to (A)\r\n- Wired networks, \"normal\" range of BDPs\r\n- Wireless networks, \"normal\" range of BDPs (loss & jitter)\r\n- Internet-scale deployment is sufficient for this?\r\n\r\n(C) Optional Domains: must evaluate (A) & report\r\n- IoT\r\n- Satellite\r\n- Misbehaving nodes\r\n-  Response to sudden & transient events\r\n-  Tunnels for explicit-signal protocols\r\n- Extreme packet reordering\r\n\r\n",
+      "createdAt": "2023-09-01T15:34:28Z",
+      "updatedAt": "2023-10-16T15:00:31Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "gorryfair",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I agree we need to restructure,  I like the idea of A. I think defining heterogeneity in B is likely helpful - although we really ought to stop using \"bandwidth\" when we mean \"capacity\" - because it really confuses SDOs that actually do cap[acity v bandwidth tradeoffs:-)\r\n\r\nI'll fight that Internet-Scale deployment is sufficient;-). That plays to the big operators, and I do not like that.\r\n\r\nIt worries me quite a lot that we target \"normal BDPs\" - that's not something I would welcome. It places all satellite outside normal, which again, I don't like - some satellite is definitely odd, but I'd really like to see broadband services as \"normal\", if nothing else, to include those people who can only use this technology.\r\n\r\nSo, main question first: can we factor the last section as different in a particular perspective, rather than \"labelling\" networks as optional to support? i.e. XXXX is a property, and IoT is an example, transients and abrupt capacity variation is an example of radio networks; etc.?\r\n\r\n\r\n\r\n\r\n",
+          "createdAt": "2023-09-04T18:06:44Z",
+          "updatedAt": "2023-09-04T18:06:44Z"
+        },
+        {
+          "author": "huitema",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I agree that we need a better structure. Including having actual subsections per issue, rather than the current list format.\r\n\r\nTwo points: short flows, and transient events.\r\n\r\nShort flows are pretty much the norm, with reports of 90% of connections never going out of slow start. There is an associated problem: capacity discovery algorithm like slow start will rapidly increase the amount of data sent on a path, with a high potential for disrupting current users of that path. That's not good. There are potentials solutions such as quickly evaluating the capacity (e.g., packet pair, squirting, variants), remembering past connections (careful resume), or potentially getting input from the network (maybe something like Prague/ECN). These solutions have been explored for \"special\" links (satellite, deep space), but the problem is not just special links. I would like to see that discussed in the \"main\" section (A).\r\n\r\nTransients are also the norm. Congestion control is a form of control algorithm, and control algorithms must absolutely deal with transients. For example, if we deal with wireless, we need to deal with \"entering a tunnel\" -- and exiting. We may want to deal with [some of the silliness performed in the name of energy saving](https://www.privateoctopus.com/2023/05/18/the-weird-case-of-wifi-latency-spikes.html). That should belong to the core (A), not the \"weird configuration\" (C).",
+          "createdAt": "2023-09-04T18:41:24Z",
+          "updatedAt": "2023-09-04T18:41:24Z"
+        },
+        {
+          "author": "martinduke",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Wait to land PRs, then do this with no substantive change, then do other PRs -- this change will be editorially disruptive.",
+          "createdAt": "2023-09-18T15:23:32Z",
+          "updatedAt": "2023-09-18T15:23:32Z"
+        }
+      ]
+    },
+    {
+      "number": 28,
+      "id": "I_kwDOI7aIXc5wNPll",
+      "title": "The fixed delay hypothesis",
+      "url": "https://github.com/ietf-wg-ccwg/rfc5033bis/issues/28",
+      "state": "OPEN",
+      "author": "huitema",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "gorryfair"
+      ],
+      "labels": [],
+      "body": "Delay based congestion control protocols are making an assumption that the observed RTT is the sum of a constant \"min delay\" and a variable queuing delay. This assumption may not be valid on wireless links, as delays vary when the distance between mobile endpoint and base station increases, or when changing transmission condition cause the radios to adopt different modulation and coding strategies. I suspect we also have these \"variable delays\" in satellite services, especially when using constellations of low orbit satellites.\r\n\r\nThe state of the art is not very good. BBR for example recognizes its dependency on accurate estimate of the min RTT, but has to resort to some kind of periodic reset if measurements of RTT kept over RTT min for 10 seconds -- which is both quite long for some apps, and quite annoying for real time apps suffering a transmission issue every ten seconds. LEDBAT++ does something similar.\r\n\r\nI think these \"variable delays\" link are good candidates for \"special case\" links, to be mentioned in a separate section.",
+      "createdAt": "2023-09-05T18:27:23Z",
+      "updatedAt": "2023-10-18T00:39:55Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "gorryfair",
+          "authorAssociation": "COLLABORATOR",
+          "body": "The variable delay part applies to most satellite broadband access using GEO also - not because of propagation usually, but more a result of radio resource sharing. It might well apply to some other technologies that use a shared capacity pool.",
+          "createdAt": "2023-09-05T19:01:04Z",
+          "updatedAt": "2023-09-05T19:01:04Z"
+        },
+        {
+          "author": "martinduke",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Min delay variation strikes me as a bit of a corner case -- perhaps it can be an optional case to evaluate.\r\n\r\nThe other piece is delay variation is not always congestion -- this is IIUC very common in wireless and is part of that mandatory case.",
+          "createdAt": "2023-09-18T15:41:08Z",
+          "updatedAt": "2023-09-18T15:41:08Z"
+        },
+        {
+          "author": "gorryfair",
+          "authorAssociation": "COLLABORATOR",
+          "body": "In think this is something like:\r\n\r\nAn Internet Path can include simple links, where the minimum delay is the propagation delay, and any additional delay can be attributed to link buffering. In this case, a congestion controller could reduce the sending rate to the point of minimum buffering while still preserving the maximum throughput.\r\n\r\n An internet Path can also include complex subnetworks where the minimum delay changes over various time scales. This occurs when a subnet changes the forwarding path to optimise capacity, resilience, etc. It could also arise when a subnet uses a capacity management method where the available resource is periodically distributed among the active nodes and where a node might then have to buffer data until an assigned transmission opportunity. Variation also results when a higher priority diffserv traffic classic prompts the transmission by a lower class. In these cases, the delay varies as a function of external factors and attempting to infer congestion from an increase in the delay results in reduced throughput.",
+          "createdAt": "2023-10-13T08:01:25Z",
+          "updatedAt": "2023-10-13T08:01:25Z"
+        },
+        {
+          "author": "huitema",
+          "authorAssociation": "COLLABORATOR",
+          "body": "The delay will also change when the wireless path between two wireless nodes becomes longer, or slower, or shorter, or faster. Or when a wireless router changes the schedule of transmission and starts polling a wireless station more often. or less often.\r\n\r\nTo give an extreme example, suppose a spacecraft flying away from earth at 12,000 km/h. Every hour, the delay will increase by 40 ms. ",
+          "createdAt": "2023-10-16T04:40:16Z",
+          "updatedAt": "2023-10-16T04:40:16Z"
+        },
+        {
+          "author": "gorryfair",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Sure, however that requirement is very specific to certain systems - my point is that even for fixed cabled and broadband wireless systems, the base delay changes.",
+          "createdAt": "2023-10-16T07:56:36Z",
+          "updatedAt": "2023-10-16T07:56:36Z"
+        },
+        {
+          "author": "mattmathis",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I suggest the language \"non stationary minimum delay\" to encompass all causes  that resemble some form of  route or path change, explicitly including LEO and mobile motion.\r\n\r\nIt doesn't really cover link layer re transmissions or delays caused by link scheduling algorithms, but these are short term variations that are more likely to be  statistically similar to IP queuing delay.   I would  use the term \"hidden queues\" to refer to unmanaged queues that (almost) never incur significant backlog but do occasionally cause jitter and generally can not be observed at the IP queuing layer.\r\n",
+          "createdAt": "2023-10-18T00:39:54Z",
+          "updatedAt": "2023-10-18T00:39:54Z"
+        }
+      ]
+    },
+    {
+      "number": 32,
+      "id": "I_kwDOI7aIXc5zuvye",
+      "title": "Add reference to: RFC9392?",
+      "url": "https://github.com/ietf-wg-ccwg/rfc5033bis/issues/32",
+      "state": "OPEN",
+      "author": "gorryfair",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "martinduke"
+      ],
+      "labels": [],
+      "body": "This info RFC has some sensible guidelines on RTP feedback frequency, if we need this: \"Sending RTP Control Protocol (RTCP) Feedback for Congestion Control in Interactive Multimedia Conferences\". ",
+      "createdAt": "2023-10-13T09:55:51Z",
+      "updatedAt": "2023-10-16T15:28:05Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "martinduke",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Related to #25 ",
+          "createdAt": "2023-10-16T15:28:01Z",
+          "updatedAt": "2023-10-16T15:28:01Z"
+        }
+      ]
+    },
+    {
+      "number": 33,
+      "id": "I_kwDOI7aIXc5zwWC-",
+      "title": "QS could be made clearer",
+      "url": "https://github.com/ietf-wg-ccwg/rfc5033bis/issues/33",
+      "state": "CLOSED",
+      "author": "gorryfair",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "I'll propose a PR with some editorial updates to the first part of the ID.",
+      "createdAt": "2023-10-13T14:17:33Z",
+      "updatedAt": "2023-10-13T20:56:51Z",
+      "closedAt": "2023-10-13T20:56:51Z",
+      "comments": []
+    },
+    {
+      "number": 35,
+      "id": "I_kwDOI7aIXc5zyjOI",
+      "title": "Non-standard algorithms",
+      "url": "https://github.com/ietf-wg-ccwg/rfc5033bis/issues/35",
+      "state": "OPEN",
+      "author": "martinduke",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "Needs Discussion"
+      ],
+      "body": "The text currently reads:\r\n\r\n\"The community should also consider other non-standard congestion controls known to be widely deployed,\"\r\n\r\nThis is a compromise to land a mostly unrelated PR.\r\n\r\n@gorryfair doesn't think it's fair to expect participants to test algorithms that aren't fully specified.\r\n\r\nI would argue that if such specifications exist and the algorithm is systemically important, it absolutely should be modeled. Moreover, if the algorithm is rather loosely described, in many cases there is open source code (often in a Linux fork!) that can be tested on a host, or in simulation frameworks like ns3.\r\n\r\nIf an algorithm is a true black box, with no description besides marketing material, and no open-source code, I agree there is not much to be done. I also believe that while algorithms like this exist, they are not systemically important to the internet.",
+      "createdAt": "2023-10-13T20:54:16Z",
+      "updatedAt": "2023-10-16T15:33:09Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "martinduke",
+          "authorAssociation": "COLLABORATOR",
+          "body": "gorry: ns3 code is not super high fidelity.",
+          "createdAt": "2023-10-16T15:33:08Z",
+          "updatedAt": "2023-10-16T15:33:08Z"
+        }
+      ]
+    }
+  ],
+  "pulls": [
+    {
+      "number": 15,
+      "id": "PR_kwDOI7aIXc5W8sbO",
+      "title": "authors, acks",
+      "url": "https://github.com/ietf-wg-ccwg/rfc5033bis/pull/15",
+      "state": "MERGED",
+      "author": "martinduke",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Fixes #13",
+      "createdAt": "2023-08-01T20:52:17Z",
+      "updatedAt": "2023-10-13T20:58:12Z",
+      "baseRepository": "ietf-wg-ccwg/rfc5033bis",
+      "baseRefName": "main",
+      "baseRefOid": "ba856a0b9d21eb974a7ff8a396d130ed2a02fc8a",
+      "headRepository": "martinduke/rfc5033bis",
+      "headRefName": "authors",
+      "headRefOid": "79603eaf6c4dbf8ade9f9996b5bd4fb9ad5b3abe",
+      "closedAt": "2023-08-08T20:44:08Z",
+      "mergedAt": "2023-08-08T20:44:07Z",
+      "mergedBy": "martinduke",
+      "mergeCommit": {
+        "oid": "00278159049917de5e2b847efde6128864dcd494"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOI7aIXc5dNASc",
+          "commit": {
+            "abbreviatedOid": "79603ea"
+          },
+          "author": "ekinnear",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-08-05T00:39:25Z",
+          "updatedAt": "2023-08-05T00:39:25Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 17,
+      "id": "PR_kwDOI7aIXc5YcRN3",
+      "title": "Propose a bufferbloat item in the requirements.",
+      "url": "https://github.com/ietf-wg-ccwg/rfc5033bis/pull/17",
+      "state": "MERGED",
+      "author": "huitema",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Addresses issue #8",
+      "createdAt": "2023-08-22T01:31:41Z",
+      "updatedAt": "2023-08-31T17:54:10Z",
+      "baseRepository": "ietf-wg-ccwg/rfc5033bis",
+      "baseRefName": "main",
+      "baseRefOid": "00278159049917de5e2b847efde6128864dcd494",
+      "headRepository": "ietf-wg-ccwg/rfc5033bis",
+      "headRefName": "bufferbloat",
+      "headRefOid": "64df140fd03fd1338e594def0ae0ce1d728e40a7",
+      "closedAt": "2023-08-31T17:54:10Z",
+      "mergedAt": "2023-08-31T17:54:10Z",
+      "mergedBy": "martinduke",
+      "mergeCommit": {
+        "oid": "ffff58ceb1a377dca45b0c99ec86eeacb09eabf5"
+      },
+      "comments": [
+        {
+          "author": "huitema",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@gorryfair You wrote _\"Some comments on Bufferbloat\"_ and I am pretty sure these are interesting comments, but I cannot see any. I am afraid something went wrong and they were not published.\r\n\r\n",
+          "createdAt": "2023-08-22T13:45:53Z",
+          "updatedAt": "2023-08-22T13:45:53Z"
+        },
+        {
+          "author": "martinduke",
+          "authorAssociation": "COLLABORATOR",
+          "body": "A good improvement. I wonder if framing it like \"use the full bandwidth and nothing more\" would be a more holistic approach that covers a few different requirements at once, but I have no actual text to propose.",
+          "createdAt": "2023-08-31T17:53:27Z",
+          "updatedAt": "2023-08-31T17:53:27Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOI7aIXc5eukcg",
+          "commit": {
+            "abbreviatedOid": "64df140"
+          },
+          "author": "gorryfair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "Some comments on Bufferbloat",
+          "createdAt": "2023-08-22T11:59:57Z",
+          "updatedAt": "2023-08-22T11:59:57Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOI7aIXc5e4sar",
+          "commit": {
+            "abbreviatedOid": "64df140"
+          },
+          "author": "gorryfair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "This looks like reasonable first text pin this topic, thanks Christian (my previous comments appear already to be resolved - so happy to approve this)",
+          "createdAt": "2023-08-23T15:51:53Z",
+          "updatedAt": "2023-08-23T15:51:53Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOI7aIXc5fr-M0",
+          "commit": {
+            "abbreviatedOid": "64df140"
+          },
+          "author": "martinduke",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-08-31T17:53:36Z",
+          "updatedAt": "2023-08-31T17:53:36Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 18,
+      "id": "PR_kwDOI7aIXc5Ycru3",
+      "title": "Acknowledge Cubic and BBR outside of IETF",
+      "url": "https://github.com/ietf-wg-ccwg/rfc5033bis/pull/18",
+      "state": "MERGED",
+      "author": "huitema",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Addresses issue #4",
+      "createdAt": "2023-08-22T04:29:02Z",
+      "updatedAt": "2023-08-31T17:54:25Z",
+      "baseRepository": "ietf-wg-ccwg/rfc5033bis",
+      "baseRefName": "main",
+      "baseRefOid": "00278159049917de5e2b847efde6128864dcd494",
+      "headRepository": "ietf-wg-ccwg/rfc5033bis",
+      "headRefName": "cubic-and-bbr",
+      "headRefOid": "8a4727b3bbed887dfd6d85177e4a70624065a8dc",
+      "closedAt": "2023-08-31T17:54:25Z",
+      "mergedAt": "2023-08-31T17:54:25Z",
+      "mergedBy": "martinduke",
+      "mergeCommit": {
+        "oid": "5186d95ea41d5b389aba63c518b635401090c4aa"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOI7aIXc5e4tZB",
+          "commit": {
+            "abbreviatedOid": "8a4727b"
+          },
+          "author": "gorryfair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Looks like good first text on this topic.",
+          "createdAt": "2023-08-23T15:53:50Z",
+          "updatedAt": "2023-08-23T15:53:50Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOI7aIXc5fr8Oo",
+          "commit": {
+            "abbreviatedOid": "8a4727b"
+          },
+          "author": "martinduke",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-08-31T17:50:49Z",
+          "updatedAt": "2023-08-31T17:50:49Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 20,
+      "id": "PR_kwDOI7aIXc5ZApSK",
+      "title": "PR adding some multipath consideration",
+      "url": "https://github.com/ietf-wg-ccwg/rfc5033bis/pull/20",
+      "state": "OPEN",
+      "author": "gorryfair",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "gorryfair"
+      ],
+      "labels": [
+        "Needs Discussion"
+      ],
+      "body": "We can't say much, but we ought to acknowledge two types of multipath - failover/switch and concurrent usage and it would be nice to say how to consider these.",
+      "createdAt": "2023-08-29T08:48:40Z",
+      "updatedAt": "2023-10-16T22:51:09Z",
+      "baseRepository": "ietf-wg-ccwg/rfc5033bis",
+      "baseRefName": "main",
+      "baseRefOid": "00278159049917de5e2b847efde6128864dcd494",
+      "headRepository": "ietf-wg-ccwg/rfc5033bis",
+      "headRefName": "gorryfair-MP",
+      "headRefOid": "1cd0577fcd39edae1e9fa068535b149bc7044854",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOI7aIXc5fbmGV",
+          "commit": {
+            "abbreviatedOid": "5b35554"
+          },
+          "author": "huitema",
+          "authorAssociation": "COLLABORATOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "I am not sure that we have consensus there. Or more precisely, we do have consensus on the minimal statement, \"A design independently needs to track the congestion state of each path,\r\nand needs to demonstrate independent congestion control for each path being used.\" But I don't think we can have consensus on anything beyond that.\r\n\r\nAt one extreme, I have seen advocacy that if a connection can use multiple paths, it should refrain from using the congested paths so as to not harm other connections that can only use these congested paths. we certainly do not have consensus for that.\r\n\r\nWe may be tempted to do something about controllers setting multiple \"paths\" over the same underlying path, but transport implementations can also claim a larger share of an underlying path by setting more aggressive parameters in their congestion controllers -- different method, same effect.  This all falls back into the general \"fairness\" issue, for which we also no not have consensus beyond the minimal recommendation to not starve the competition.\r\n\r\nInstead of focusing on fairness, I would be tempted to look at selfish motives. Suppose the connection is the sole user of the bottleneck, and somehow splits its traffic as a set of paths through that bottleneck. Does it cause unexpected effects, like maybe building larger queues or incurring larger losses?\r\n\r\nBut for a first attempt, I would trim the proposed text a lot, removing everything after \"demonstrate independent congestion control for each path being used.\"",
+          "createdAt": "2023-08-29T18:48:15Z",
+          "updatedAt": "2023-08-29T19:06:50Z",
+          "comments": [
+            {
+              "originalPosition": 36,
+              "body": "*Another* use...",
+              "createdAt": "2023-08-29T18:48:15Z",
+              "updatedAt": "2023-08-29T19:06:50Z"
+            },
+            {
+              "originalPosition": 46,
+              "body": "OK, but what does \"inappropriately\" mean? ",
+              "createdAt": "2023-08-29T18:54:34Z",
+              "updatedAt": "2023-08-29T19:06:50Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI7aIXc5ffTEG",
+          "commit": {
+            "abbreviatedOid": "5b35554"
+          },
+          "author": "gorryfair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-08-30T07:15:39Z",
+          "updatedAt": "2023-08-30T07:15:39Z",
+          "comments": [
+            {
+              "originalPosition": 36,
+              "body": "I do think we can find/have consensus on some wording around concurrent multipath. (We owe it to hint why this has been on the edge of what the IETF has explored - SCTP CMT since ~2010, and other research which the IETF has not adopted.) WG chairs and AD's have consistently been wary of concurrent multipath, so we ought to indicate something, the last sentence is such as \u201ccurrent\u201d statement.",
+              "createdAt": "2023-08-30T07:15:39Z",
+              "updatedAt": "2023-08-30T07:15:39Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI7aIXc5ffTz3",
+          "commit": {
+            "abbreviatedOid": "5b35554"
+          },
+          "author": "gorryfair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-08-30T07:17:34Z",
+          "updatedAt": "2023-08-30T07:17:34Z",
+          "comments": [
+            {
+              "originalPosition": 36,
+              "body": "Also, picking-up on your comment on \"unfair\" design, I agree. That was not where I saw the additional concerns for CMT: These were about avoiding harm/starvation and achieving stability. I originally used \"appropriate\u201d, only because I thought we would define that earlier, but I would be happy enough to say harm (or starvation) providing this is defined earlier. I\u2019d love to add consideration of stability with respect to shifting traffic between multiple paths in a competitive way, if there is agreement, but have not done so yet, because that\u2019s one stage deeper...",
+              "createdAt": "2023-08-30T07:17:34Z",
+              "updatedAt": "2023-08-30T07:17:34Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI7aIXc5hNhTz",
+          "commit": {
+            "abbreviatedOid": "5b35554"
+          },
+          "author": "gorryfair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-09-18T12:30:23Z",
+          "updatedAt": "2023-09-18T12:30:23Z",
+          "comments": [
+            {
+              "originalPosition": 46,
+              "body": "Happy to define inappropriate in terms of a starvation test (using \"harm\" metric as an example) to replace the inapproriate as a word. ",
+              "createdAt": "2023-09-18T12:30:23Z",
+              "updatedAt": "2023-09-18T12:30:23Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI7aIXc5j2eK7",
+          "commit": {
+            "abbreviatedOid": "5b35554"
+          },
+          "author": "gorryfair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-12T21:19:12Z",
+          "updatedAt": "2023-10-12T21:19:12Z",
+          "comments": [
+            {
+              "originalPosition": 36,
+              "body": "Thought resolved",
+              "createdAt": "2023-10-12T21:19:12Z",
+              "updatedAt": "2023-10-12T21:19:12Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI7aIXc5kFKDX",
+          "commit": {
+            "abbreviatedOid": "1cd0577"
+          },
+          "author": "huitema",
+          "authorAssociation": "COLLABORATOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "Sorry for not chiming in sooner, I have been a bit overwhelmed in the last weeks.\r\n\r\nI think we are not ready yet. See detailed comments.",
+          "createdAt": "2023-10-16T04:30:10Z",
+          "updatedAt": "2023-10-16T04:33:47Z",
+          "comments": [
+            {
+              "originalPosition": 45,
+              "body": "I think this is all too long, and mixes two or three different concepts:\r\n\r\n1) that routing change happen, and that congestion control need to be ready for such changes.\r\n\r\n2) that transport protocols managing different paths should manage congestion independently for each path.\r\n\r\n3) that even when paths are defined by different pairs of addresses, there is a possibility that these paths share some common congested segments.\r\n\r\nThe first consideration is not really about multipath, and in my mind should be pulled into its own subsection.\r\n\r\nThere is some consensus about \"measuring the congestion for each path\", by opposition to \"measuring the congestion control for a bundle paths\", which could cause congestion on the lowest capacity path of the bundle. This is summarized in TCPM (section 3.3.7 of RFC 8684) as \"we mean that it does not take up more capacity on any one path than if it was a single path flow using only that route, so this ensures fair coexistence with single-path TCP at shared bottlenecks.\" There is a similar point in QUIC (Section 9.4 RFC 9000) and in the QUIC Multipath draft (Section 7.2. of draft-ietf-quic-multipath), \"When the QUIC multipath extension is used, senders manage per-path congestion status as required in Section 9.4 of [QUIC-TRANSPORT].\"\r\n\r\nThe third point about common segments is touching into research issues. If the different paths share a common segment, we may want to do something, but what? The easy solution is that if N path share the same segment, the effect on other users must not be worse than if N independent connections shared this segment. Which is of course a low bar. But then, detecting that paths do in fact share segments is a bit of a research issue. Yes, we have a coupled congestion control algorithm specified in RFC 6356, but this is an experimental RFC, which mean we cannot really mandate its use.",
+              "createdAt": "2023-10-16T04:30:10Z",
+              "updatedAt": "2023-10-16T04:33:47Z"
+            },
+            {
+              "originalPosition": 48,
+              "body": "We do have a proposed standard for TCPM (RFC 8684). We also have active work on QUIC Multipath, which could very well end up approved before 5033bis. It might be better to say nothing.",
+              "createdAt": "2023-10-16T04:32:44Z",
+              "updatedAt": "2023-10-16T04:33:47Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI7aIXc5kIZvs",
+          "commit": {
+            "abbreviatedOid": "1cd0577"
+          },
+          "author": "gorryfair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-16T12:59:03Z",
+          "updatedAt": "2023-10-16T12:59:03Z",
+          "comments": [
+            {
+              "originalPosition": 48,
+              "body": "THAT is a good question... maybe @Martin  for more clue on this. RFC 8684 states: \"it is necessary to couple the congestion windows in use on each subflow, in order to push most traffic to uncongested links\", although RFC6356 is EXP\r\n\r\nand then MP-DCCP (draft-ietf-tsvwg-multipath-dccp) was asked to say \"If, and\r\n   when, the IETF specifies a method for concurrent usage of multiple\r\n   paths for the general Internet, the framework specified in this\r\n   document could be used to provide an IETF recommended method for MP-\r\n   DCCP.\"\r\n... I'll let Martin comment first.",
+              "createdAt": "2023-10-16T12:59:03Z",
+              "updatedAt": "2023-10-16T12:59:03Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI7aIXc5kIdxH",
+          "commit": {
+            "abbreviatedOid": "1cd0577"
+          },
+          "author": "gorryfair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-16T13:04:44Z",
+          "updatedAt": "2023-10-16T13:04:45Z",
+          "comments": [
+            {
+              "originalPosition": 45,
+              "body": "1. is indeed generic (but p-lease talk about \"forwarding\" not \"routing\" - which includes more than a route change, I would be happy to see that appear separately. \r\n2. I agree is important to say something.\r\n3. I don't agree with your proposal above. I would really like to suggest is still an issue to call-out and see what text people include in future in response.",
+              "createdAt": "2023-10-16T13:04:44Z",
+              "updatedAt": "2023-10-16T13:04:45Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI7aIXc5kKpDI",
+          "commit": {
+            "abbreviatedOid": "1cd0577"
+          },
+          "author": "huitema",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-16T16:45:34Z",
+          "updatedAt": "2023-10-16T16:45:34Z",
+          "comments": [
+            {
+              "originalPosition": 45,
+              "body": "I don't mind calling out the issue, but I don't think we can make specific recommendations.",
+              "createdAt": "2023-10-16T16:45:34Z",
+              "updatedAt": "2023-10-16T16:45:34Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI7aIXc5kL9UD",
+          "commit": {
+            "abbreviatedOid": "1cd0577"
+          },
+          "author": "gorryfair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-16T19:55:43Z",
+          "updatedAt": "2023-10-16T19:55:43Z",
+          "comments": [
+            {
+              "originalPosition": 45,
+              "body": "OK, I'll try a PR, and we can always update later, if we need to.",
+              "createdAt": "2023-10-16T19:55:43Z",
+              "updatedAt": "2023-10-16T19:55:43Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI7aIXc5kMd3C",
+          "commit": {
+            "abbreviatedOid": "1cd0577"
+          },
+          "author": "martinduke",
+          "authorAssociation": "COLLABORATOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "I might land this as\r\n- New CCs MUST be evaluated in environments where path characteristics change\r\n- TODO: Say if there are standards around coupling concurrent paths (or maybe we can converge on this point soon)\r\n- TODO: Say if there are standards for fairness at common bottlenecks.",
+          "createdAt": "2023-10-16T21:27:52Z",
+          "updatedAt": "2023-10-16T21:36:50Z",
+          "comments": [
+            {
+              "originalPosition": 45,
+              "body": "We are due for a big re-org here so I would discourage worrying which section text goes into right now.\r\n\r\nFurthermore, I think this could benefit from thinking more about test cases and less about advice for algorithm developers. So, for (1) we should definitely evaluate relative performance with path changes.\r\n\r\nFor (2) I definitely know what you both mean, but I'm having trouble thinking about how to frame this in a usable way. What if a congestion control looked at the relative state of two paths and made a path decision based on that? What if Path A and B share the same bottleneck -- isn't coupling reasonable then? What is the testable assertion here? Perhaps \"vary path B  state and show that path A throughput is unchanged,\" but what are we hoping to gain from that? I am creeping towards the idea that we don't want to say anything about this at all, though I can certainly be persuaded otherwise.\r\n\r\n(3) There are zero standard concurrent multipath congestion controls at this time. We may not be able to say anything, but it would certainly be nice if the community could converge on something here. Strict fairness over a  shared bottleneck sits poorly with our theme of moving away from fairness to starvation. So is it OK for an algorithm to have 3 convergent paths and thus take 3/4 of the bandwidth there?\r\n\r\n",
+              "createdAt": "2023-10-16T21:27:52Z",
+              "updatedAt": "2023-10-16T21:36:50Z"
+            },
+            {
+              "originalPosition": 48,
+              "body": "Well, there is one standard for a *protocol* with concurrent multipath and at least two more on the way. But there are zero congestion controls, which is more to the point. So I like Gorry's statement if he applies s/multipath usage/multipath congestion control.",
+              "createdAt": "2023-10-16T21:29:41Z",
+              "updatedAt": "2023-10-16T21:36:50Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI7aIXc5kMxrn",
+          "commit": {
+            "abbreviatedOid": "1cd0577"
+          },
+          "author": "huitema",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-16T22:51:09Z",
+          "updatedAt": "2023-10-16T22:51:09Z",
+          "comments": [
+            {
+              "originalPosition": 45,
+              "body": "To answer Martin's question, yes, it is OK for an algorithm to have 3 convergent paths and thus take 3/4 of the bandwidth. To elaborate a bit:\r\n\r\n1) the remaining connection in the 3/4th case has 1/4th of the bandwidth, so it is not \"starving\".\r\n\r\n2) in a lot of cases, we have just one connection sharing the bottleneck, even with N paths. Self interest means deployments will not want to do something silly.\r\n\r\n3) if an admin wants to ensure fairness, they should deploy an AQM that enforces it. Relying on the congestion control algorithm for that seems fragile.\r\n",
+              "createdAt": "2023-10-16T22:51:09Z",
+              "updatedAt": "2023-10-16T22:51:09Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 22,
+      "id": "PR_kwDOI7aIXc5ZRpo9",
+      "title": "Renamed file and updated tracker",
+      "url": "https://github.com/ietf-wg-ccwg/rfc5033bis/pull/22",
+      "state": "CLOSED",
+      "author": "martinduke",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-08-31T20:04:04Z",
+      "updatedAt": "2023-10-13T20:58:10Z",
+      "baseRepository": "ietf-wg-ccwg/rfc5033bis",
+      "baseRefName": "main",
+      "baseRefOid": "5186d95ea41d5b389aba63c518b635401090c4aa",
+      "headRepository": "martinduke/rfc5033bis",
+      "headRefName": "rename-draft",
+      "headRefOid": "ee38171024f146a6e505ffc93d814421ec396d1b",
+      "closedAt": "2023-08-31T20:07:50Z",
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 23,
+      "id": "PR_kwDOI7aIXc5ZRsXV",
+      "title": "Updated filename and changelog",
+      "url": "https://github.com/ietf-wg-ccwg/rfc5033bis/pull/23",
+      "state": "MERGED",
+      "author": "martinduke",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-08-31T20:13:55Z",
+      "updatedAt": "2023-08-31T20:38:14Z",
+      "baseRepository": "ietf-wg-ccwg/rfc5033bis",
+      "baseRefName": "main",
+      "baseRefOid": "5186d95ea41d5b389aba63c518b635401090c4aa",
+      "headRepository": "martinduke/rfc5033bis",
+      "headRefName": "main",
+      "headRefOid": "b980b485b1e80dd57c03e77d7a2b9c2d540c9645",
+      "closedAt": "2023-08-31T20:38:13Z",
+      "mergedAt": "2023-08-31T20:38:13Z",
+      "mergedBy": "martinduke",
+      "mergeCommit": {
+        "oid": "fe6f393c275474d29be2aa5daad4d8336f73036e"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 24,
+      "id": "PR_kwDOI7aIXc5ZSBjs",
+      "title": "Add quic",
+      "url": "https://github.com/ietf-wg-ccwg/rfc5033bis/pull/24",
+      "state": "MERGED",
+      "author": "martinduke",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Fix #1, #14",
+      "createdAt": "2023-08-31T21:18:31Z",
+      "updatedAt": "2023-10-13T20:58:17Z",
+      "baseRepository": "ietf-wg-ccwg/rfc5033bis",
+      "baseRefName": "main",
+      "baseRefOid": "4e04deb83efdbb4ed4770a7d8b1f939b14a4726d",
+      "headRepository": "martinduke/rfc5033bis",
+      "headRefName": "add-quic",
+      "headRefOid": "7bd1f7db0e95cc2c01330eb9c99f6cb9e3d8e9a5",
+      "closedAt": "2023-10-13T20:42:34Z",
+      "mergedAt": "2023-10-13T20:42:34Z",
+      "mergedBy": "martinduke",
+      "mergeCommit": {
+        "oid": "31fe7a3edfd6993bd551d16618d2e0d9557ffd61"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOI7aIXc5f1pln",
+          "commit": {
+            "abbreviatedOid": "6c21acd"
+          },
+          "author": "huitema",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Looks good.",
+          "createdAt": "2023-09-02T05:37:59Z",
+          "updatedAt": "2023-09-02T05:37:59Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOI7aIXc5gColb",
+          "commit": {
+            "abbreviatedOid": "6c21acd"
+          },
+          "author": "gorryfair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "I like the direction, but I think it could do with another turn on the wording.....",
+          "createdAt": "2023-09-05T15:15:37Z",
+          "updatedAt": "2023-09-05T15:18:55Z",
+          "comments": [
+            {
+              "originalPosition": 24,
+              "body": "I sympathise with the non-standard statement, but I would not like a pushback that I have to evaluate against something for which there is no current open specification - after trying to evaluate against some of these, I have learned this is a fool's game. Do we need to say it as a should?",
+              "createdAt": "2023-09-05T15:15:37Z",
+              "updatedAt": "2023-09-05T15:18:55Z"
+            },
+            {
+              "originalPosition": 33,
+              "body": "should not suffer severe performance degradation... for Non-best effort. That I could not parse.\r\n\r\nAgree to the idea, but I am not a fan of the words \"severe performance degradation\" unless we define this, is there a better word for harm or a need to define?",
+              "createdAt": "2023-09-05T15:18:24Z",
+              "updatedAt": "2023-09-05T15:18:55Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI7aIXc5hrE76",
+          "commit": {
+            "abbreviatedOid": "6c21acd"
+          },
+          "author": "martinduke",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-09-21T20:50:48Z",
+          "updatedAt": "2023-09-21T20:50:48Z",
+          "comments": [
+            {
+              "originalPosition": 24,
+              "body": "Well, \"non-standard\" != \"not specified\". Secondly, it already says \"should\" so I'm not sure what your objection is?",
+              "createdAt": "2023-09-21T20:50:48Z",
+              "updatedAt": "2023-09-21T20:50:48Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI7aIXc5hrHaU",
+          "commit": {
+            "abbreviatedOid": "6c21acd"
+          },
+          "author": "martinduke",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-09-21T20:54:51Z",
+          "updatedAt": "2023-09-21T20:54:52Z",
+          "comments": [
+            {
+              "originalPosition": 33,
+              "body": "I rearranged the sentence to remove the implication the last sentence relates to non-best-effort traffic.\r\n\r\nI'm comfortable with applying a \"know it when I see it'\" standard for severe performance degradation, but if you have other words (or a definition) I'm happy to accept it.",
+              "createdAt": "2023-09-21T20:54:51Z",
+              "updatedAt": "2023-09-21T20:54:52Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI7aIXc5j2aUk",
+          "commit": {
+            "abbreviatedOid": "a11f34b"
+          },
+          "author": "gorryfair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-12T21:10:05Z",
+          "updatedAt": "2023-10-12T21:10:05Z",
+          "comments": [
+            {
+              "originalPosition": 24,
+              "body": "That last sentence is so awkward: I'm just unsure how someone would evaluate against something that's widely deployed, but not fully specified - you can't simulate it, or do any mathematical analysis only observe a specific version of the traffic, and if that changes, you might not know if the analysis is still correct?",
+              "createdAt": "2023-10-12T21:10:05Z",
+              "updatedAt": "2023-10-12T21:10:06Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI7aIXc5j2bAR",
+          "commit": {
+            "abbreviatedOid": "a11f34b"
+          },
+          "author": "gorryfair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-12T21:12:06Z",
+          "updatedAt": "2023-10-12T21:12:06Z",
+          "comments": [
+            {
+              "originalPosition": 33,
+              "body": "That could sound a lot like if I deploy it, then it's fine for me to do it, don't harm me.",
+              "createdAt": "2023-10-12T21:12:06Z",
+              "updatedAt": "2023-10-12T21:12:07Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI7aIXc5j6VWL",
+          "commit": {
+            "abbreviatedOid": "a11f34b"
+          },
+          "author": "gorryfair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-13T10:55:06Z",
+          "updatedAt": "2023-10-13T10:55:06Z",
+          "comments": [
+            {
+              "originalPosition": 24,
+              "body": "A minimal fix could be: /any other/other/ and /shown to be/known to be/ ... that helps because \"consider\" is weak anyway;-).",
+              "createdAt": "2023-10-13T10:55:06Z",
+              "updatedAt": "2023-10-13T10:55:06Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI7aIXc5j6WbC",
+          "commit": {
+            "abbreviatedOid": "a11f34b"
+          },
+          "author": "gorryfair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-13T10:58:13Z",
+          "updatedAt": "2023-10-13T10:58:14Z",
+          "comments": [
+            {
+              "originalPosition": 33,
+              "body": "Would this be a way to go? \"When  a new algorithm is deployed, the existing major deployments need to be considered to avoid severe performance degradation.\"",
+              "createdAt": "2023-10-13T10:58:14Z",
+              "updatedAt": "2023-10-13T10:58:14Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI7aIXc5j-dvV",
+          "commit": {
+            "abbreviatedOid": "6c21acd"
+          },
+          "author": "martinduke",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-13T20:39:45Z",
+          "updatedAt": "2023-10-13T20:39:46Z",
+          "comments": [
+            {
+              "originalPosition": 24,
+              "body": "OK, I'm going to make this \"minimal fix\" and then argue about non-standard algos in another issue.",
+              "createdAt": "2023-10-13T20:39:45Z",
+              "updatedAt": "2023-10-13T20:39:46Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI7aIXc5j-eSh",
+          "commit": {
+            "abbreviatedOid": "6c21acd"
+          },
+          "author": "martinduke",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-13T20:41:44Z",
+          "updatedAt": "2023-10-13T20:41:44Z",
+          "comments": [
+            {
+              "originalPosition": 33,
+              "body": "SGTM",
+              "createdAt": "2023-10-13T20:41:44Z",
+              "updatedAt": "2023-10-13T20:41:44Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 26,
+      "id": "PR_kwDOI7aIXc5ZWTGr",
+      "title": "Wireless",
+      "url": "https://github.com/ietf-wg-ccwg/rfc5033bis/pull/26",
+      "state": "MERGED",
+      "author": "martinduke",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Fixes #6 ",
+      "createdAt": "2023-09-01T15:04:29Z",
+      "updatedAt": "2023-10-13T20:58:20Z",
+      "baseRepository": "ietf-wg-ccwg/rfc5033bis",
+      "baseRefName": "main",
+      "baseRefOid": "fe6f393c275474d29be2aa5daad4d8336f73036e",
+      "headRepository": "martinduke/rfc5033bis",
+      "headRefName": "wireless",
+      "headRefOid": "bb611749cd9ead28393319619e850ce9873f9050",
+      "closedAt": "2023-09-21T20:59:32Z",
+      "mergedAt": "2023-09-21T20:59:31Z",
+      "mergedBy": "martinduke",
+      "mergeCommit": {
+        "oid": "bf6941c4407c64141dd05bcec50cd29c20e7bee8"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOI7aIXc5f1qlv",
+          "commit": {
+            "abbreviatedOid": "eb83a29"
+          },
+          "author": "huitema",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "The \"wireless link\" part is nice and sweet. The \"difficult environments\", not so much. I realize that the PR just removes the \"wireless\" part of these difficult environments, and that what remains is the equal-cost-multipath type of links that was described in 5033. So, the PR is good. But we may want to later revisit what we mean by \"difficult environment\"...",
+          "createdAt": "2023-09-02T05:40:01Z",
+          "updatedAt": "2023-09-02T05:45:05Z",
+          "comments": [
+            {
+              "originalPosition": 14,
+              "body": "Yes. That's a good simple statement.",
+              "createdAt": "2023-09-02T05:40:01Z",
+              "updatedAt": "2023-09-02T05:45:05Z"
+            },
+            {
+              "originalPosition": 25,
+              "body": "Maybe we should have a separate discussion of that... ",
+              "createdAt": "2023-09-02T05:42:16Z",
+              "updatedAt": "2023-09-02T05:45:05Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI7aIXc5gCqr6",
+          "commit": {
+            "abbreviatedOid": "eb83a29"
+          },
+          "author": "gorryfair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-09-05T15:19:50Z",
+          "updatedAt": "2023-09-05T15:19:51Z",
+          "comments": [
+            {
+              "originalPosition": 8,
+              "body": "/internet/Internet/ at least here?",
+              "createdAt": "2023-09-05T15:19:51Z",
+              "updatedAt": "2023-09-05T15:19:51Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI7aIXc5gCsEC",
+          "commit": {
+            "abbreviatedOid": "eb83a29"
+          },
+          "author": "gorryfair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-09-05T15:22:22Z",
+          "updatedAt": "2023-09-05T15:22:22Z",
+          "comments": [
+            {
+              "originalPosition": 10,
+              "body": "/bandwidth/ here is used from the computing perspective but talks about radio - where this means something subtly different - should we say capacity?\r\n",
+              "createdAt": "2023-09-05T15:22:22Z",
+              "updatedAt": "2023-09-05T15:22:22Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI7aIXc5gCs2P",
+          "commit": {
+            "abbreviatedOid": "eb83a29"
+          },
+          "author": "gorryfair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-09-05T15:23:55Z",
+          "updatedAt": "2023-09-05T15:23:55Z",
+          "comments": [
+            {
+              "originalPosition": 24,
+              "body": "multipath routing - do you mean methods like ECMP or something else? - I was unsure.",
+              "createdAt": "2023-09-05T15:23:55Z",
+              "updatedAt": "2023-09-05T15:23:55Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI7aIXc5gCuKb",
+          "commit": {
+            "abbreviatedOid": "eb83a29"
+          },
+          "author": "gorryfair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-09-05T15:26:24Z",
+          "updatedAt": "2023-09-05T15:26:24Z",
+          "comments": [
+            {
+              "originalPosition": 103,
+              "body": "pedantic (sorry) - the evaluation must be done and presented ... it does not much matter if this is done by the author, what matters is it is presented to the IETF/IRTF",
+              "createdAt": "2023-09-05T15:26:24Z",
+              "updatedAt": "2023-09-05T15:26:24Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI7aIXc5gD-A1",
+          "commit": {
+            "abbreviatedOid": "eb83a29"
+          },
+          "author": "huitema",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-09-05T18:03:50Z",
+          "updatedAt": "2023-09-05T18:03:50Z",
+          "comments": [
+            {
+              "originalPosition": 10,
+              "body": "+1 about not using bandwidth. Bandwidth in radio means the width of the frequency band that carries the modulation, and the link to data rate depends on noise level (Shannon law) and number of antenna pairs (MIMO). Capacity is less ambiguous. For any given link conditions there is a tradeoff between data rate and bit error rate, but I would still use data rate rather than capacity.",
+              "createdAt": "2023-09-05T18:03:50Z",
+              "updatedAt": "2023-09-05T18:03:50Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI7aIXc5hOFGw",
+          "commit": {
+            "abbreviatedOid": "dfd821a"
+          },
+          "author": "gorryfair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "I changed based on the thread with Christian, and agreed to these insights. I think this ready.",
+          "createdAt": "2023-09-18T13:37:45Z",
+          "updatedAt": "2023-09-18T13:37:45Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 29,
+      "id": "PR_kwDOI7aIXc5akO-t",
+      "title": "Align with CCWG Charter",
+      "url": "https://github.com/ietf-wg-ccwg/rfc5033bis/pull/29",
+      "state": "MERGED",
+      "author": "gorryfair",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "This takes the initial part of that charter and adds to the introduction as a starting point for the new document.",
+      "createdAt": "2023-09-18T12:53:57Z",
+      "updatedAt": "2023-10-13T10:51:47Z",
+      "baseRepository": "ietf-wg-ccwg/rfc5033bis",
+      "baseRefName": "main",
+      "baseRefOid": "4d51f7d6c54dff9046b3dff17bdb764996860293",
+      "headRepository": "ietf-wg-ccwg/rfc5033bis",
+      "headRefName": "align-ccwg",
+      "headRefOid": "9742ef256c5162f6f96a88d1acd857bb8587f035",
+      "closedAt": "2023-10-13T10:51:47Z",
+      "mergedAt": "2023-10-13T10:51:46Z",
+      "mergedBy": "gorryfair",
+      "mergeCommit": {
+        "oid": "4e04deb83efdbb4ed4770a7d8b1f939b14a4726d"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOI7aIXc5hrKVM",
+          "commit": {
+            "abbreviatedOid": "9742ef2"
+          },
+          "author": "martinduke",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-09-21T21:04:10Z",
+          "updatedAt": "2023-09-21T21:04:10Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 30,
+      "id": "PR_kwDOI7aIXc5aki7L",
+      "title": "Align with CCWG Charter",
+      "url": "https://github.com/ietf-wg-ccwg/rfc5033bis/pull/30",
+      "state": "CLOSED",
+      "author": "gorryfair",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Pull request bringing-in the initial part of the CCWG charter text.",
+      "createdAt": "2023-09-18T13:38:17Z",
+      "updatedAt": "2023-09-18T13:38:24Z",
+      "baseRepository": "ietf-wg-ccwg/rfc5033bis",
+      "baseRefName": "main",
+      "baseRefOid": "4d51f7d6c54dff9046b3dff17bdb764996860293",
+      "headRepository": "ietf-wg-ccwg/rfc5033bis",
+      "headRefName": "Aling-ccwg",
+      "headRefOid": "5544435b66e8252299a6277f587a037f7038d434",
+      "closedAt": "2023-09-18T13:38:24Z",
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 31,
+      "id": "PR_kwDOI7aIXc5a7zL6",
+      "title": "Add Christian as contributor",
+      "url": "https://github.com/ietf-wg-ccwg/rfc5033bis/pull/31",
+      "state": "MERGED",
+      "author": "martinduke",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-09-21T21:48:59Z",
+      "updatedAt": "2023-09-21T21:49:04Z",
+      "baseRepository": "ietf-wg-ccwg/rfc5033bis",
+      "baseRefName": "main",
+      "baseRefOid": "bf6941c4407c64141dd05bcec50cd29c20e7bee8",
+      "headRepository": "martinduke/rfc5033bis",
+      "headRefName": "main",
+      "headRefOid": "15d68692335d6fb84c20b86d6b58f95ff2506025",
+      "closedAt": "2023-09-21T21:49:04Z",
+      "mergedAt": "2023-09-21T21:49:04Z",
+      "mergedBy": "martinduke",
+      "mergeCommit": {
+        "oid": "dd5ba6fb2c4fb44e7ee0926d763c91fce72baf0a"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 34,
+      "id": "PR_kwDOI7aIXc5cvrFr",
+      "title": "Tidy initial text & QS",
+      "url": "https://github.com/ietf-wg-ccwg/rfc5033bis/pull/34",
+      "state": "MERGED",
+      "author": "gorryfair",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Update the QS text and various editorial suggestions. Closes #33 if merged.",
+      "createdAt": "2023-10-13T14:18:27Z",
+      "updatedAt": "2023-10-13T20:56:50Z",
+      "baseRepository": "ietf-wg-ccwg/rfc5033bis",
+      "baseRefName": "main",
+      "baseRefOid": "4e04deb83efdbb4ed4770a7d8b1f939b14a4726d",
+      "headRepository": "ietf-wg-ccwg/rfc5033bis",
+      "headRefName": "gorryfair-patch-1",
+      "headRefOid": "2fc95f4b87691d28dc005cc48c30e7b102d3bcab",
+      "closedAt": "2023-10-13T20:56:50Z",
+      "mergedAt": "2023-10-13T20:56:50Z",
+      "mergedBy": "martinduke",
+      "mergeCommit": {
+        "oid": "c58d549ad37ba072e84e1da7e90335e5da210833"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOI7aIXc5j-oo7",
+          "commit": {
+            "abbreviatedOid": "2fc95f4"
+          },
+          "author": "martinduke",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-10-13T20:56:41Z",
+          "updatedAt": "2023-10-13T20:56:41Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 36,
+      "id": "PR_kwDOI7aIXc5cxivM",
+      "title": "Added recent items to changelog",
+      "url": "https://github.com/ietf-wg-ccwg/rfc5033bis/pull/36",
+      "state": "MERGED",
+      "author": "martinduke",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-10-13T21:04:02Z",
+      "updatedAt": "2023-10-13T21:04:09Z",
+      "baseRepository": "ietf-wg-ccwg/rfc5033bis",
+      "baseRefName": "main",
+      "baseRefOid": "c58d549ad37ba072e84e1da7e90335e5da210833",
+      "headRepository": "martinduke/rfc5033bis",
+      "headRefName": "changelog",
+      "headRefOid": "4e9700f30ba38c3f9a60b26aef6c81cbe7a6e128",
+      "closedAt": "2023-10-13T21:04:09Z",
+      "mergedAt": "2023-10-13T21:04:09Z",
+      "mergedBy": "martinduke",
+      "mergeCommit": {
+        "oid": "6358e8011f36d9b0dbf5cdd1a2303874fa5bfa19"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 37,
+      "id": "PR_kwDOI7aIXc5cxlcO",
+      "title": "missing formatting",
+      "url": "https://github.com/ietf-wg-ccwg/rfc5033bis/pull/37",
+      "state": "MERGED",
+      "author": "martinduke",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-10-13T21:13:08Z",
+      "updatedAt": "2023-10-13T21:13:16Z",
+      "baseRepository": "ietf-wg-ccwg/rfc5033bis",
+      "baseRefName": "main",
+      "baseRefOid": "6358e8011f36d9b0dbf5cdd1a2303874fa5bfa19",
+      "headRepository": "martinduke/rfc5033bis",
+      "headRefName": "main",
+      "headRefOid": "58779ced842a123bbe2b1b91da65244c75b733a0",
+      "closedAt": "2023-10-13T21:13:16Z",
+      "mergedAt": "2023-10-13T21:13:16Z",
+      "mergedBy": "martinduke",
+      "mergeCommit": {
+        "oid": "cb284de2ee23d384240cf276a3a01e57e3c616c6"
+      },
+      "comments": [],
+      "reviews": []
+    }
+  ]
+}
