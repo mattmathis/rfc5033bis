@@ -1046,7 +1046,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Duke &amp; Fairhurst</td>
-<td class="center">Expires 21 April 2024</td>
+<td class="center">Expires 22 April 2024</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1062,12 +1062,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="https://www.rfc-editor.org/rfc/rfc5033" class="eref">5033</a> (if approved)</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2023-10-19" class="published">19 October 2023</time>
+<time datetime="2023-10-20" class="published">20 October 2023</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Best Current Practice</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2024-04-21">21 April 2024</time></dd>
+<dd class="expires"><time datetime="2024-04-22">22 April 2024</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1131,7 +1131,7 @@ considering alternate congestion control algorithms within the IETF.<a href="#se
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 21 April 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 22 April 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1485,11 +1485,11 @@ backoff" or a pause in sending comes into play will be
 algorithm-specific.  However, as discussed in <span>[<a href="#RFC2914" class="cite xref">RFC2914</a>]</span>, this
 requirement is crucial to protect the network in times of extreme
 congestion.<a href="#section-3.1.1-1" class="pilcrow">¶</a></p>
-<p id="section-3.1.1-2">If "full backoff" is used, this bullet does not require that the
+<p id="section-3.1.1-2">If the result of full backoff is used, this test does not require that the
 full backoff mechanism must be identical to that of TCP
 <span>[<a href="#RFC2988" class="cite xref">RFC2988</a>]</span>.  As an example, this bullet does not preclude full
 backoff mechanisms that would give flows with different round-
-trip times comparable caapcity during backoff.<a href="#section-3.1.1-2" class="pilcrow">¶</a></p>
+trip times comparable capacity during backoff.<a href="#section-3.1.1-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="protection-against-bufferbloat">
@@ -1499,15 +1499,16 @@ trip times comparable caapcity during backoff.<a href="#section-3.1.1-2" class="
           </h4>
 <p id="section-3.1.2-1">The alternate congestion control mechanism should reduce its sending
 rate if the round trip time (RTT) significantly increases. Exactly how
-the algorithm reduces its sending rate is algorithm specific.<a href="#section-3.1.2-1" class="pilcrow">¶</a></p>
+the algorithm reduces its sending rate is algorithm specific, but see
+<span>[<a href="#RFC8961" class="cite xref">RFC8961</a>]</span> and <span>[<a href="#RFC8085" class="cite xref">RFC8085</a>]</span> for requirements.<a href="#section-3.1.2-1" class="pilcrow">¶</a></p>
 <p id="section-3.1.2-2">Bufferbloat <span>[<a href="#Bufferbloat" class="cite xref">Bufferbloat</a>]</span> refers to the building of long queues in
 the network. Many network routers are configured with very large buffers.
 If congestion starts happening, classic TCP congestion control algorithms
 <span>[<a href="#RFC5681" class="cite xref">RFC5681</a>]</span> will continue sending at a high rate until the buffer fills
 up completely and packet losses occur. Every connection going through
-that bottleneck will experience high latency.
-This is particularly bad for highly interactive applications like games,
-but it also affects routine web browsing and video playing.<a href="#section-3.1.2-2" class="pilcrow">¶</a></p>
+that bottleneck will experience high latency.  This adds unwanted latency that
+impacts highly interactive applications like games, but it also affects routine
+web browsing and video playing.<a href="#section-3.1.2-2" class="pilcrow">¶</a></p>
 <p id="section-3.1.2-3">This problem became apparent in the last decade and was not discussed in
 the Congestion Control Principles published in September 2002 <span>[<a href="#RFC2914" class="cite xref">RFC2914</a>]</span>.
 The classic congestion control algorithm <span>[<a href="#RFC5681" class="cite xref">RFC5681</a>]</span> and the widely deployed
@@ -1520,7 +1521,7 @@ control algorithms have the opportunity to improve the state of the art.<a href=
           <h4 id="name-fairness-within-the-alterna">
 <a href="#section-3.1.3" class="section-number selfRef">3.1.3. </a><a href="#name-fairness-within-the-alterna" class="section-name selfRef">Fairness within the Alternate Congestion Control Algorithm.</a>
           </h4>
-<p id="section-3.1.3-1">In environments with multiple competing flows all using the same
+<p id="section-3.1.3-1">When multiple competing flows all using the same
 alternate congestion control algorithm, the proposal should
 explore how the capacity is shared among the competing flows.<a href="#section-3.1.3-1" class="pilcrow">¶</a></p>
 </section>
@@ -1600,7 +1601,7 @@ allowances for the poor documentation / open source availability of these)<a hre
           <h4 id="name-differences-with-congestion">
 <a href="#section-3.3.1" class="section-number selfRef">3.3.1. </a><a href="#name-differences-with-congestion" class="section-name selfRef">Differences with Congestion Control Principles</a>
           </h4>
-<p id="section-3.3.1-1">Proposed congestion control mechanisms should include a clear
+<p id="section-3.3.1-1">Proposed congestion control mechanisms SHOULD include a clear
 explanation of the deviations from <span>[<a href="#RFC2914" class="cite xref">RFC2914</a>]</span>.<a href="#section-3.3.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -1703,8 +1704,8 @@ properties of operation in these scenarios, as they are statistically small.<a h
         <h3 id="name-satellite">
 <a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-satellite" class="section-name selfRef">Satellite</a>
         </h3>
-<p id="section-5.2-1">Satellite links often have long delays <span>[<a href="#RFC2488" class="cite xref">RFC2488</a>]</span> and high delay bandwidth
-products<span>[<a href="#RFC3649" class="cite xref">RFC3649</a>]</span>.<a href="#section-5.2-1" class="pilcrow">¶</a></p>
+<p id="section-5.2-1">Satellite links often have delays longer than typical for wired paths
+<span>[<a href="#RFC2488" class="cite xref">RFC2488</a>]</span> and high delay bandwidth products<span>[<a href="#RFC3649" class="cite xref">RFC3649</a>]</span>.<a href="#section-5.2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="misbehaving-nodes">
@@ -1713,7 +1714,7 @@ products<span>[<a href="#RFC3649" class="cite xref">RFC3649</a>]</span>.<a href=
 <a href="#section-5.3" class="section-number selfRef">5.3. </a><a href="#name-misbehaving-nodes" class="section-name selfRef">Misbehaving Nodes</a>
         </h3>
 <p id="section-5.3-1">The proposal should explore how the alternate congestion control
-mechanism performs with misbehaving senders, receivers, or
+mechanism performs with non-compliant senders, receivers, or
 routers.  In addition, the proposal should explore how the
 alternate congestion control mechanism performs with outside
 attackers.  This can be particularly important for congestion
@@ -1725,8 +1726,7 @@ misbehaving nodes and outside attackers is discussed in Sections
 discussion of misbehaving senders and receivers; collusion
 between misbehaving routers; misbehaving middleboxes; and the
 potential use of Quick-Start to attack routers or to tie up
-available Quick-Start bandwidth.
-(TODO: Write this sectoin)<a href="#section-5.3-2" class="pilcrow">¶</a></p>
+available Quick-Start bandwidth.<a href="#section-5.3-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="tunnel-behavior">
@@ -1863,6 +1863,14 @@ examine any potential security issues that may arise.<a href="#section-6-1" clas
 <dt id="RFC5681">[RFC5681]</dt>
         <dd>
 <span class="refAuthor">Allman, M.</span>, <span class="refAuthor">Paxson, V.</span>, and <span class="refAuthor">E. Blanton</span>, <span class="refTitle">"TCP Congestion Control"</span>, <span class="seriesInfo">RFC 5681</span>, <span class="seriesInfo">DOI 10.17487/RFC5681</span>, <time datetime="2009-09" class="refDate">September 2009</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5681">https://www.rfc-editor.org/rfc/rfc5681</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8085">[RFC8085]</dt>
+        <dd>
+<span class="refAuthor">Eggert, L.</span>, <span class="refAuthor">Fairhurst, G.</span>, and <span class="refAuthor">G. Shepherd</span>, <span class="refTitle">"UDP Usage Guidelines"</span>, <span class="seriesInfo">BCP 145</span>, <span class="seriesInfo">RFC 8085</span>, <span class="seriesInfo">DOI 10.17487/RFC8085</span>, <time datetime="2017-03" class="refDate">March 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8085">https://www.rfc-editor.org/rfc/rfc8085</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8961">[RFC8961]</dt>
+        <dd>
+<span class="refAuthor">Allman, M.</span>, <span class="refTitle">"Requirements for Time-Based Loss Detection"</span>, <span class="seriesInfo">BCP 233</span>, <span class="seriesInfo">RFC 8961</span>, <span class="seriesInfo">DOI 10.17487/RFC8961</span>, <time datetime="2020-11" class="refDate">November 2020</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8961">https://www.rfc-editor.org/rfc/rfc8961</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC9000">[RFC9000]</dt>
         <dd>
