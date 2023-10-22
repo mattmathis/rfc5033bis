@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-10-19T00:35:10.034878+00:00",
+  "timestamp": "2023-10-22T00:38:05.357403+00:00",
   "repo": "ietf-wg-ccwg/rfc5033bis",
   "labels": [
     {
@@ -104,7 +104,7 @@
       ],
       "body": "MP variants of TCP and QUIC, as well as SCTP may see some deployments - should this document mention something aroud coupled congestion control vs. single path congestion control also?",
       "createdAt": "2023-02-10T15:06:38Z",
-      "updatedAt": "2023-10-16T15:06:42Z",
+      "updatedAt": "2023-10-21T06:16:27Z",
       "closedAt": null,
       "comments": [
         {
@@ -141,6 +141,34 @@
           "body": "See PR #20 for some initial text.",
           "createdAt": "2023-08-29T08:49:14Z",
           "updatedAt": "2023-08-29T08:49:14Z"
+        },
+        {
+          "author": "huitema",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I am really not sure that we should say much about multipath at all, besides the minimum -- making sure that any use of a path is not worse than creating a separate connection on that path.\r\n\r\nIn PR #20, Gorry is trying to separate \"multipath for failover\" and \"multipath for load balancing\". But these are only two points in the spectrum of things that can be done. For example, in various QUIC implementations, I have also seen:\r\n\r\n* multipath of ACK -- using the lowest latency path to carry ACKs for the other paths,\r\n* multipath of loss recovery -- resending the content of packets lost on path A on the hopefully more reliable path B,\r\n* multipath redundancy -- sending duplicate traffic on path A and B, so the receiver can pick whichever arrives first,\r\n* multipath redundancy with FEC -- same as above, but send FEC redundancy instead of merely duplicating traffic,\r\n* multipath affinity -- subsets of application traffic are tied to a specific path as long as that path is available.\r\n\r\nNot all of these have obvious congestion control consequences, but some do. For example:\r\n\r\n* Multipath of ACK is widely implemented, and the draft multipath specifically supports it. It is particularly useful when one of the links is high bandwidth and high latency. But then, this means the multipath connection will enjoy a shorter RTT than the other connections sharing the same bottleneck, which generally results in a larger share of the capacity.\r\n\r\n* Multipath redundancy was pioneered by the QUIC team at Ali-Baba, as a way to get lower latency when sending video streams. They do that when one of the paths is considered a bit suspect. Of course, it leads to using more bandwidth.\r\n\r\n",
+          "createdAt": "2023-10-20T04:13:18Z",
+          "updatedAt": "2023-10-20T04:13:18Z"
+        },
+        {
+          "author": "gorryfair",
+          "authorAssociation": "COLLABORATOR",
+          "body": "This was intentional - Failover has been om the RFC series for sometime, and has been deployed. Concurrent multipath is something that has been on the edge for quite a while, but was at the other extreme - in the middle there are many things ... If you have an exhaustive list of the CC-related ones, that could perhaps be useful, I was avoiding making that list.\r\n\r\nI note FEC has interesting interactions with CC.",
+          "createdAt": "2023-10-20T07:01:13Z",
+          "updatedAt": "2023-10-20T07:01:13Z"
+        },
+        {
+          "author": "martinduke",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I wouldn't mind text that made it clear that \"concurrent multipath\" is a continuum of immature ideas. But Gorry is right that failover is well established and everything else involves hand-waving.",
+          "createdAt": "2023-10-20T20:12:26Z",
+          "updatedAt": "2023-10-20T20:12:26Z"
+        },
+        {
+          "author": "huitema",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Regarding FEC and CC, it depends whether FEC is below CC or above it. With TCP, it has to be below, but with QUIC it is typically above, with FEC frames being controlled by CC like datagram or Stream data frames.\r\n\r\nI missed one interesting data point in the previous list, interactions between loss recovery and multipath scheduling.",
+          "createdAt": "2023-10-21T06:16:27Z",
+          "updatedAt": "2023-10-21T06:16:27Z"
         }
       ]
     },
@@ -1032,7 +1060,7 @@
       "id": "PR_kwDOI7aIXc5ZApSK",
       "title": "PR adding some multipath consideration",
       "url": "https://github.com/ietf-wg-ccwg/rfc5033bis/pull/20",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "gorryfair",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -1043,18 +1071,28 @@
       ],
       "body": "We can't say much, but we ought to acknowledge two types of multipath - failover/switch and concurrent usage and it would be nice to say how to consider these.",
       "createdAt": "2023-08-29T08:48:40Z",
-      "updatedAt": "2023-10-16T22:51:09Z",
+      "updatedAt": "2023-10-19T18:39:24Z",
       "baseRepository": "ietf-wg-ccwg/rfc5033bis",
       "baseRefName": "main",
-      "baseRefOid": "00278159049917de5e2b847efde6128864dcd494",
+      "baseRefOid": "cb284de2ee23d384240cf276a3a01e57e3c616c6",
       "headRepository": "ietf-wg-ccwg/rfc5033bis",
       "headRefName": "gorryfair-MP",
-      "headRefOid": "1cd0577fcd39edae1e9fa068535b149bc7044854",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
-      "comments": [],
+      "headRefOid": "5866f457a97a110aea1d62a3573098a33b5219c7",
+      "closedAt": "2023-10-19T18:39:23Z",
+      "mergedAt": "2023-10-19T18:39:23Z",
+      "mergedBy": "martinduke",
+      "mergeCommit": {
+        "oid": "c594cccc5d08e95238e3285d1491412585dccb71"
+      },
+      "comments": [
+        {
+          "author": "gorryfair",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I thi k we ought to land something before we refactor the topics, and I'm proposing this - I'm not delcaring this is the final word on any of this - but I do think we need to reorganise the content so I'd like to see this committed as a starting point.",
+          "createdAt": "2023-10-19T16:54:47Z",
+          "updatedAt": "2023-10-19T16:54:47Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOI7aIXc5fbmGV",
@@ -1313,6 +1351,79 @@
               "updatedAt": "2023-10-16T22:51:09Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOI7aIXc5koE6-",
+          "commit": {
+            "abbreviatedOid": "6fc44da"
+          },
+          "author": "gorryfair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-19T16:49:37Z",
+          "updatedAt": "2023-10-19T16:49:38Z",
+          "comments": [
+            {
+              "originalPosition": 48,
+              "body": "Though resolved - at least enough to land something before we do the rewrite. This topic naturally will require some WG review.",
+              "createdAt": "2023-10-19T16:49:37Z",
+              "updatedAt": "2023-10-19T16:49:38Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI7aIXc5koGCk",
+          "commit": {
+            "abbreviatedOid": "1cd0577"
+          },
+          "author": "gorryfair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-19T16:52:23Z",
+          "updatedAt": "2023-10-19T16:52:23Z",
+          "comments": [
+            {
+              "originalPosition": 45,
+              "body": "I think 2 is common, but I am unsure it is helpful as a safety check. It was so hard to know if a flow from one content provider harms that of another. I think this is a more general question though - not just multipath.",
+              "createdAt": "2023-10-19T16:52:23Z",
+              "updatedAt": "2023-10-19T16:52:23Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI7aIXc5koraa",
+          "commit": {
+            "abbreviatedOid": "1cd0577"
+          },
+          "author": "gorryfair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-19T18:20:03Z",
+          "updatedAt": "2023-10-19T18:20:03Z",
+          "comments": [
+            {
+              "originalPosition": 45,
+              "body": "Thought resolved enough to merge",
+              "createdAt": "2023-10-19T18:20:03Z",
+              "updatedAt": "2023-10-19T18:20:03Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI7aIXc5kozPY",
+          "commit": {
+            "abbreviatedOid": "5866f45"
+          },
+          "author": "martinduke",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Good enough, I'll ship it",
+          "createdAt": "2023-10-19T18:39:15Z",
+          "updatedAt": "2023-10-19T18:39:15Z",
+          "comments": []
         }
       ]
     },
@@ -1959,6 +2070,347 @@
       },
       "comments": [],
       "reviews": []
+    },
+    {
+      "number": 38,
+      "id": "PR_kwDOI7aIXc5dT0Ox",
+      "title": "add mp to changelog",
+      "url": "https://github.com/ietf-wg-ccwg/rfc5033bis/pull/38",
+      "state": "MERGED",
+      "author": "martinduke",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-10-19T19:26:14Z",
+      "updatedAt": "2023-10-19T19:38:05Z",
+      "baseRepository": "ietf-wg-ccwg/rfc5033bis",
+      "baseRefName": "main",
+      "baseRefOid": "c594cccc5d08e95238e3285d1491412585dccb71",
+      "headRepository": "ietf-wg-ccwg/rfc5033bis",
+      "headRefName": "changelog",
+      "headRefOid": "b8abb014a0d681f6979c968667a4ec9611aa1b91",
+      "closedAt": "2023-10-19T19:38:05Z",
+      "mergedAt": "2023-10-19T19:38:05Z",
+      "mergedBy": "martinduke",
+      "mergeCommit": {
+        "oid": "9d916cf931e3f374618753d98e3076436a5cd5e3"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 39,
+      "id": "PR_kwDOI7aIXc5dUqE4",
+      "title": "Reorganize the draft",
+      "url": "https://github.com/ietf-wg-ccwg/rfc5033bis/pull/39",
+      "state": "OPEN",
+      "author": "martinduke",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Fixes #27.\r\n\r\nI resisted the urge to resolve other issues with this, so there are a bunch of TODOs in the text.\r\n\r\nMost of the big blocks of text are moved from elsewhere in the document.",
+      "createdAt": "2023-10-19T22:40:18Z",
+      "updatedAt": "2023-10-21T08:03:36Z",
+      "baseRepository": "ietf-wg-ccwg/rfc5033bis",
+      "baseRefName": "main",
+      "baseRefOid": "9d916cf931e3f374618753d98e3076436a5cd5e3",
+      "headRepository": "ietf-wg-ccwg/rfc5033bis",
+      "headRefName": "reorg",
+      "headRefOid": "2266c01b2ee06661b0dfd72b4605d792e20a6368",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOI7aIXc5ksc4J",
+          "commit": {
+            "abbreviatedOid": "42ae727"
+          },
+          "author": "gorryfair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-20T07:04:45Z",
+          "updatedAt": "2023-10-20T07:04:45Z",
+          "comments": [
+            {
+              "originalPosition": 41,
+              "body": "/bullet/test/ - or some other word?",
+              "createdAt": "2023-10-20T07:04:45Z",
+              "updatedAt": "2023-10-20T07:04:46Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI7aIXc5ksdMY",
+          "commit": {
+            "abbreviatedOid": "42ae727"
+          },
+          "author": "gorryfair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-20T07:05:42Z",
+          "updatedAt": "2023-10-20T07:05:43Z",
+          "comments": [
+            {
+              "originalPosition": 42,
+              "body": "/the result of full backoff/ ... or something - rather than the internal algorithm detail?",
+              "createdAt": "2023-10-20T07:05:42Z",
+              "updatedAt": "2023-10-20T07:05:43Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI7aIXc5ksdU9",
+          "commit": {
+            "abbreviatedOid": "42ae727"
+          },
+          "author": "gorryfair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-20T07:06:07Z",
+          "updatedAt": "2023-10-20T07:06:07Z",
+          "comments": [
+            {
+              "originalPosition": 46,
+              "body": "/caapacity/capacity/",
+              "createdAt": "2023-10-20T07:06:07Z",
+              "updatedAt": "2023-10-20T07:06:07Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI7aIXc5ksfHw",
+          "commit": {
+            "abbreviatedOid": "42ae727"
+          },
+          "author": "gorryfair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-20T07:11:30Z",
+          "updatedAt": "2023-10-20T07:11:31Z",
+          "comments": [
+            {
+              "originalPosition": 54,
+              "body": "I think this ought to be linked by ref to RFC 8961, and possibly RFC 8085.",
+              "createdAt": "2023-10-20T07:11:31Z",
+              "updatedAt": "2023-10-20T07:11:31Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI7aIXc5ksfmx",
+          "commit": {
+            "abbreviatedOid": "42ae727"
+          },
+          "author": "gorryfair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-20T07:12:50Z",
+          "updatedAt": "2023-10-20T07:12:51Z",
+          "comments": [
+            {
+              "originalPosition": 64,
+              "body": "/bad/ ought to be something measurable - this adds /unwanted latency / that impacts highly interactive..",
+              "createdAt": "2023-10-20T07:12:51Z",
+              "updatedAt": "2023-10-20T07:12:51Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI7aIXc5ksgXt",
+          "commit": {
+            "abbreviatedOid": "42ae727"
+          },
+          "author": "gorryfair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-20T07:14:58Z",
+          "updatedAt": "2023-10-20T07:14:59Z",
+          "comments": [
+            {
+              "originalPosition": 75,
+              "body": "Unsure here : This is really great guidance. CCs are designed and used in many deployment environments. I think we need to remove /In environments with/ and add /When/ or something. We will probably also need to work out more detail here later.",
+              "createdAt": "2023-10-20T07:14:59Z",
+              "updatedAt": "2023-10-20T07:14:59Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI7aIXc5ksgn6",
+          "commit": {
+            "abbreviatedOid": "42ae727"
+          },
+          "author": "gorryfair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-20T07:15:40Z",
+          "updatedAt": "2023-10-20T07:15:40Z",
+          "comments": [
+            {
+              "originalPosition": 134,
+              "body": "I think this is SHOULD.",
+              "createdAt": "2023-10-20T07:15:40Z",
+              "updatedAt": "2023-10-20T07:15:40Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI7aIXc5kshlZ",
+          "commit": {
+            "abbreviatedOid": "42ae727"
+          },
+          "author": "gorryfair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-20T07:18:26Z",
+          "updatedAt": "2023-10-20T07:18:26Z",
+          "comments": [
+            {
+              "originalPosition": 278,
+              "body": "/long delays/delays longer than typical for wired paths/ ",
+              "createdAt": "2023-10-20T07:18:26Z",
+              "updatedAt": "2023-10-20T07:18:26Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI7aIXc5ksiAu",
+          "commit": {
+            "abbreviatedOid": "42ae727"
+          },
+          "author": "gorryfair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-20T07:19:38Z",
+          "updatedAt": "2023-10-20T07:19:38Z",
+          "comments": [
+            {
+              "originalPosition": 296,
+              "body": "/misbehaving/ is likely a very unhelpful term here. I am not sure we actually need to evaluate from incorrectly implemented routers?",
+              "createdAt": "2023-10-20T07:19:38Z",
+              "updatedAt": "2023-10-20T07:19:38Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI7aIXc5ksijj",
+          "commit": {
+            "abbreviatedOid": "42ae727"
+          },
+          "author": "gorryfair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-20T07:21:09Z",
+          "updatedAt": "2023-10-20T07:21:09Z",
+          "comments": [
+            {
+              "originalPosition": 313,
+              "body": "/section/ ... and can we add to the note, that this is *when* the alternative CC relies on the presence or operation of a mechanism implemented in a router. ",
+              "createdAt": "2023-10-20T07:21:09Z",
+              "updatedAt": "2023-10-20T07:21:10Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI7aIXc5kyH3S",
+          "commit": {
+            "abbreviatedOid": "42ae727"
+          },
+          "author": "martinduke",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-20T20:26:36Z",
+          "updatedAt": "2023-10-20T20:26:36Z",
+          "comments": [
+            {
+              "originalPosition": 296,
+              "body": "I changed misbehaving to non-compliant. Routers are discussed later in the section, so I'll keep it here. Apparently Quick Start thought it was important enough to consider?",
+              "createdAt": "2023-10-20T20:26:36Z",
+              "updatedAt": "2023-10-20T20:26:36Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI7aIXc5kyIRJ",
+          "commit": {
+            "abbreviatedOid": "42ae727"
+          },
+          "author": "martinduke",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-20T20:28:09Z",
+          "updatedAt": "2023-10-20T20:28:09Z",
+          "comments": [
+            {
+              "originalPosition": 313,
+              "body": "I deleted thte TODO, because it's an artifact of the edit.\r\n\r\nThe explicit signal discussion is in the first paragraph of this section. I don't see a need to repeat it.",
+              "createdAt": "2023-10-20T20:28:09Z",
+              "updatedAt": "2023-10-20T20:28:09Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI7aIXc5kyyxe",
+          "commit": {
+            "abbreviatedOid": "2266c01"
+          },
+          "author": "huitema",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "I like the flow after this refactoring!",
+          "createdAt": "2023-10-21T01:03:09Z",
+          "updatedAt": "2023-10-21T01:03:09Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOI7aIXc5kzdeL",
+          "commit": {
+            "abbreviatedOid": "42ae727"
+          },
+          "author": "gorryfair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-21T08:01:47Z",
+          "updatedAt": "2023-10-21T08:01:48Z",
+          "comments": [
+            {
+              "originalPosition": 296,
+              "body": "OK with that change: This I think QuickStart discuses this because it is a CC method that relies on router feedback.",
+              "createdAt": "2023-10-21T08:01:47Z",
+              "updatedAt": "2023-10-21T08:01:48Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOI7aIXc5kzdiw",
+          "commit": {
+            "abbreviatedOid": "2266c01"
+          },
+          "author": "gorryfair",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Good to merge, the text here looks good to me. There are still things to think about, but these are probably best down on the basis of the entire document.",
+          "createdAt": "2023-10-21T08:03:36Z",
+          "updatedAt": "2023-10-21T08:03:36Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
