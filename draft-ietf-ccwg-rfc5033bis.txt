@@ -438,7 +438,7 @@ Table of Contents
 5.  Special Cases
 
    The criteria in Section 3 will be evaluated in the following
-   scenarios, unless the proposal specifically presents its use in a
+   scenarios, unless the proposal specifically excludes its use in a
    scenario.  The community MAY allow a proposal to progress even if the
    criteria indicate an unsatisfactory result for these scenarios.
 
@@ -453,7 +453,7 @@ Table of Contents
 5.2.  Satellite
 
    Satellite links often have delays longer than typical for wired paths
-   [RFC2488] and high delay bandwidth products[RFC3649].
+   [RFC2488] and high delay bandwidth products [RFC3649].
 
 5.3.  Misbehaving Nodes
 
