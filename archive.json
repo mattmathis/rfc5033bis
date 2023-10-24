@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-10-22T00:38:05.357403+00:00",
+  "timestamp": "2023-10-24T00:35:14.315054+00:00",
   "repo": "ietf-wg-ccwg/rfc5033bis",
   "labels": [
     {
@@ -509,7 +509,7 @@
       "labels": [],
       "body": "When queue saturation happens, aim to keep CC reaction desynchronized as much as possible - with tail drop this is not really possible, but AQM especially with ECN may be able to do this.",
       "createdAt": "2023-02-24T13:06:50Z",
-      "updatedAt": "2023-10-16T15:22:56Z",
+      "updatedAt": "2023-10-23T11:25:56Z",
       "closedAt": null,
       "comments": [
         {
@@ -525,6 +525,13 @@
           "body": "Related to #7 ",
           "createdAt": "2023-10-16T15:22:49Z",
           "updatedAt": "2023-10-16T15:22:49Z"
+        },
+        {
+          "author": "Ealdwulf",
+          "authorAssociation": "NONE",
+          "body": "There was GSP: https://datatracker.ietf.org/doc/html/draft-lauten-aqm-gsp-03 , but I don't know if it ever got implemented in the field",
+          "createdAt": "2023-10-23T11:25:34Z",
+          "updatedAt": "2023-10-23T11:25:56Z"
         }
       ]
     },
@@ -709,7 +716,7 @@
       "id": "I_kwDOI7aIXc5v6nf4",
       "title": "Reorganize \"Guidelines\" and \"Minimum Requirements\"",
       "url": "https://github.com/ietf-wg-ccwg/rfc5033bis/issues/27",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "martinduke",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -718,8 +725,8 @@
       "labels": [],
       "body": "The guidelines overlap in odd ways. The first one is essentially TCP-friendliness, and I guess it's implied to be talking about \"normal\" wired networks. Then different guidelines say the algorithm should be evaluated with all sorts of environments and/or link parameters, presumably for friendliness.\r\n\r\nThen, in \"Minimum Requirements\" some of these are listed as mandatory to satisfy, and the rest as something the submitter has to report on, but the community may decide to accept even if it's bad.\r\n\r\nThere are several different concepts that are being muddled here. Alternatively, we can structure it as follows:\r\n\r\n(A) Metrics to evaluate\r\n- Does the new algorithm match its share of the existing bottleneck bandwith better than existing algorithms? (not underutilizing, not bufferbloating or congestion collapsing) in isolation or with multiple flows?\r\n- Are flows using widely deployed algorithms not severely degraded by the introduction of the new algorithm?\r\n- Is there a plausible incremental deployment plan?\r\n- Something about short flows?\r\n\r\n(B) Mandatory Domains: must answer positively to (A)\r\n- Wired networks, \"normal\" range of BDPs\r\n- Wireless networks, \"normal\" range of BDPs (loss & jitter)\r\n- Internet-scale deployment is sufficient for this?\r\n\r\n(C) Optional Domains: must evaluate (A) & report\r\n- IoT\r\n- Satellite\r\n- Misbehaving nodes\r\n-  Response to sudden & transient events\r\n-  Tunnels for explicit-signal protocols\r\n- Extreme packet reordering\r\n\r\n",
       "createdAt": "2023-09-01T15:34:28Z",
-      "updatedAt": "2023-10-16T15:00:31Z",
-      "closedAt": null,
+      "updatedAt": "2023-10-23T16:35:20Z",
+      "closedAt": "2023-10-23T16:35:20Z",
       "comments": [
         {
           "author": "gorryfair",
@@ -1071,7 +1078,7 @@
       ],
       "body": "We can't say much, but we ought to acknowledge two types of multipath - failover/switch and concurrent usage and it would be nice to say how to consider these.",
       "createdAt": "2023-08-29T08:48:40Z",
-      "updatedAt": "2023-10-19T18:39:24Z",
+      "updatedAt": "2023-10-23T16:57:37Z",
       "baseRepository": "ietf-wg-ccwg/rfc5033bis",
       "baseRefName": "main",
       "baseRefOid": "cb284de2ee23d384240cf276a3a01e57e3c616c6",
@@ -2104,24 +2111,26 @@
       "id": "PR_kwDOI7aIXc5dUqE4",
       "title": "Reorganize the draft",
       "url": "https://github.com/ietf-wg-ccwg/rfc5033bis/pull/39",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "martinduke",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Fixes #27.\r\n\r\nI resisted the urge to resolve other issues with this, so there are a bunch of TODOs in the text.\r\n\r\nMost of the big blocks of text are moved from elsewhere in the document.",
       "createdAt": "2023-10-19T22:40:18Z",
-      "updatedAt": "2023-10-21T08:03:36Z",
+      "updatedAt": "2023-10-23T16:57:34Z",
       "baseRepository": "ietf-wg-ccwg/rfc5033bis",
       "baseRefName": "main",
       "baseRefOid": "9d916cf931e3f374618753d98e3076436a5cd5e3",
       "headRepository": "ietf-wg-ccwg/rfc5033bis",
       "headRefName": "reorg",
       "headRefOid": "2266c01b2ee06661b0dfd72b4605d792e20a6368",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2023-10-23T16:35:19Z",
+      "mergedAt": "2023-10-23T16:35:19Z",
+      "mergedBy": "martinduke",
+      "mergeCommit": {
+        "oid": "cb1f05255a9b7201f6c819b77261dffc4242a783"
+      },
       "comments": [],
       "reviews": [
         {
