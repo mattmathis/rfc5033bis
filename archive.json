@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-11-07T00:36:17.514806+00:00",
+  "timestamp": "2023-11-09T00:35:54.854474+00:00",
   "repo": "ietf-wg-ccwg/rfc5033bis",
   "labels": [
     {
@@ -52,6 +52,11 @@
       "name": "Needs Discussion",
       "description": "",
       "color": "B33ADE"
+    },
+    {
+      "name": "editorial",
+      "description": "",
+      "color": "753E03"
     }
   ],
   "issues": [
@@ -104,7 +109,7 @@
       ],
       "body": "MP variants of TCP and QUIC, as well as SCTP may see some deployments - should this document mention something aroud coupled congestion control vs. single path congestion control also?",
       "createdAt": "2023-02-10T15:06:38Z",
-      "updatedAt": "2023-10-21T06:16:27Z",
+      "updatedAt": "2023-11-07T08:38:31Z",
       "closedAt": null,
       "comments": [
         {
@@ -169,6 +174,13 @@
           "body": "Regarding FEC and CC, it depends whether FEC is below CC or above it. With TCP, it has to be below, but with QUIC it is typically above, with FEC frames being controlled by CC like datagram or Stream data frames.\r\n\r\nI missed one interesting data point in the previous list, interactions between loss recovery and multipath scheduling.",
           "createdAt": "2023-10-21T06:16:27Z",
           "updatedAt": "2023-10-21T06:16:27Z"
+        },
+        {
+          "author": "ekinnear",
+          "authorAssociation": "NONE",
+          "body": "Discussed at IETF 118: Asking for folks to take a look and comment here",
+          "createdAt": "2023-11-07T08:38:31Z",
+          "updatedAt": "2023-11-07T08:38:31Z"
         }
       ]
     },
@@ -369,7 +381,7 @@
       ],
       "body": "The guideline section discusses \"Investigating a Range of Environments\", with a focus especially on \"Random Early Detection (RED) [[FJ03](https://rscheff.github.io/rfc5033bis/draft-scheffenegger-congress-rfc5033bis.html#FJ03)] and Drop-Tail.\" The IETF and the IRTF have produced several different proposals for Active Queue management, with somewhat different characteristics. Interestingly, there is a tension there between developing Queue Management that \"plays well\" with existing congestion control algorithms, and developing congestion control algorithms that \"take advantage\" of AQM. Not sure what to say there, but at a minimum we should develop expectations about \"signals\" produced by AQM (e.g., the ECN markings of L4S) and reaction by congestion control algorithms.\r\n\r\nTo go further, the could be a discussion of \"honest signals\", such as delays, that are very hard to \"fake\" in routing nodes, other signals such as ECN marks that could be produced by the network at very little cost, and packet losses that fall kind of in between. But we are not writing for the IRTF, so this could be kept brief.",
       "createdAt": "2023-02-18T07:52:23Z",
-      "updatedAt": "2023-09-18T15:18:19Z",
+      "updatedAt": "2023-11-07T09:23:46Z",
       "closedAt": null,
       "comments": [
         {
@@ -399,6 +411,20 @@
           "body": "Editors:\r\nFQ-CoDel, PIE, L4S (RFC9332) have RFCs\r\nAre the others that should be evaluated, and do they have available specs?\r\n\r\n",
           "createdAt": "2023-09-18T15:18:08Z",
           "updatedAt": "2023-09-18T15:18:08Z"
+        },
+        {
+          "author": "ekinnear",
+          "authorAssociation": "NONE",
+          "body": "Discussed at IETF 118: \r\n- Many operators are not particularly aware of AQM or these concepts in general\r\n- Include FIFO in the list\r\n- Also do at least an AQM \"you should evaluate the scenario with FIFO queues and should also consider the impact of various common AQMs and run detailed simulations against them\", while maybe name-checking a few particularly relevant ones. \r\n- Yes, should have criteria for this, and also should not ask people to run NxN interop matrix.\r\n- Out of scope to _mandate_ AQM",
+          "createdAt": "2023-11-07T09:20:47Z",
+          "updatedAt": "2023-11-07T09:23:46Z"
+        },
+        {
+          "author": "gorryfair",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I suggest: Probably ought to include a suitably configured RED also.\r\n... and not suggest ALL of these need to be checked, more encourage consider AQM and FIFO scenarios.",
+          "createdAt": "2023-11-07T09:23:40Z",
+          "updatedAt": "2023-11-07T09:23:40Z"
         }
       ]
     },
@@ -509,7 +535,7 @@
       "labels": [],
       "body": "When queue saturation happens, aim to keep CC reaction desynchronized as much as possible - with tail drop this is not really possible, but AQM especially with ECN may be able to do this.",
       "createdAt": "2023-02-24T13:06:50Z",
-      "updatedAt": "2023-10-23T11:25:56Z",
+      "updatedAt": "2023-11-07T09:31:41Z",
       "closedAt": null,
       "comments": [
         {
@@ -532,6 +558,13 @@
           "body": "There was GSP: https://datatracker.ietf.org/doc/html/draft-lauten-aqm-gsp-03 , but I don't know if it ever got implemented in the field",
           "createdAt": "2023-10-23T11:25:34Z",
           "updatedAt": "2023-10-23T11:25:56Z"
+        },
+        {
+          "author": "huitema",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Matt made a good point about synchronization being caused by protocols \"testing against queue full\". Synchronization happens when all connections sharing the same protocol experience the same feedback signal at the same time. They indeed will if the queue has filled up completely, and all connections suddenly experience a high \"packet loss\" signal. But there may be other scenarios. For example, if an transmission line breaks, all connections will experience it. And if they all try to recover with the same timing, we will see a \"thundering herd\" when the link break is repaired.",
+          "createdAt": "2023-11-07T09:31:41Z",
+          "updatedAt": "2023-11-07T09:31:41Z"
         }
       ]
     },
@@ -868,7 +901,7 @@
       ],
       "body": "The text currently reads:\r\n\r\n\"The community should also consider other non-standard congestion controls known to be widely deployed,\"\r\n\r\nThis is a compromise to land a mostly unrelated PR.\r\n\r\n@gorryfair doesn't think it's fair to expect participants to test algorithms that aren't fully specified.\r\n\r\nI would argue that if such specifications exist and the algorithm is systemically important, it absolutely should be modeled. Moreover, if the algorithm is rather loosely described, in many cases there is open source code (often in a Linux fork!) that can be tested on a host, or in simulation frameworks like ns3.\r\n\r\nIf an algorithm is a true black box, with no description besides marketing material, and no open-source code, I agree there is not much to be done. I also believe that while algorithms like this exist, they are not systemically important to the internet.",
       "createdAt": "2023-10-13T20:54:16Z",
-      "updatedAt": "2023-10-16T15:33:09Z",
+      "updatedAt": "2023-11-07T09:09:39Z",
       "closedAt": null,
       "comments": [
         {
@@ -877,6 +910,86 @@
           "body": "gorry: ns3 code is not super high fidelity.",
           "createdAt": "2023-10-16T15:33:08Z",
           "updatedAt": "2023-10-16T15:33:08Z"
+        },
+        {
+          "author": "ekinnear",
+          "authorAssociation": "NONE",
+          "body": "Discussed at IETF 118: \r\n- There's a danger if you see a realtime flow that goes faster than a best effort flow, since realtime is usually constrained by other factors (potentially needing time to move forwards to generate more data)\r\n- Seems hard to imagine that something not specified is able to place a burden on anybody else. If you want others to do a thing, write it down and document it. Of course, there is no protocol police: we cannot prevent people from deploying whatever they want. Can we provide a carrot for people to play by the rules: \r\n- Could be a SHOULD consider requirements and how to interact\r\n- We have: \r\n    - Guidance for people who are writing specs that aren't yet part of the community\r\n    - How do we evaluate those protocols\r\n    - How do we ensure that fairness can exist with these\r\n- Need to have a commitment from this WG to help and not just throw up new requirements for data and for those bringing new CCs to engage positively. Perhaps spelling this out clearly\r\n- @martinduke to file issue to write something encouraging for people early on in the document\r\n- Christian notes that separate queues between realtime and best effort are not actually a strong requirement\r\n- To measure capacity you do need some sort of queue, or else you cannot measure",
+          "createdAt": "2023-11-07T09:09:39Z",
+          "updatedAt": "2023-11-07T09:09:39Z"
+        }
+      ]
+    },
+    {
+      "number": 40,
+      "id": "I_kwDOI7aIXc52Emk3",
+      "title": "Is Multicast in scope?",
+      "url": "https://github.com/ietf-wg-ccwg/rfc5033bis/issues/40",
+      "state": "OPEN",
+      "author": "gorryfair",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Discussed at IETF-118. \r\n\r\nAt least we can mention Sect 4 of Multicast UDP Usage Guidelines in RFC8085.",
+      "createdAt": "2023-11-07T09:31:18Z",
+      "updatedAt": "2023-11-07T10:20:37Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "ekinnear",
+          "authorAssociation": "NONE",
+          "body": "IETF 118:\r\n- Possibility that we could rule this out of scope\r\n- Also some interest in this as a separate document that comes after the -bis",
+          "createdAt": "2023-11-07T09:35:04Z",
+          "updatedAt": "2023-11-07T09:35:04Z"
+        },
+        {
+          "author": "gloinul",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "So just to provide the background for my question. The Reliable Multicast Transport WG (RMT) did produce two expermential congestion control specifications for multicast:\r\n\r\n- [Wave and Equation Based Rate Control (WEBRC) Building Block RFC 3738](https://datatracker.ietf.org/doc/rfc3738/)\r\n- [TCP-Friendly Multicast Congestion Control (TFMCC): Protocol Specification RFC 4654](https://datatracker.ietf.org/doc/rfc4654/)\r\n- [NORM Specification](https://datatracker.ietf.org/doc/rfc3940/)\r\n\r\nSo these specifications exists. Most mulitcast deployments are done in controlled environments however, with [Automatic Multicast Tunneling] (https://datatracker.ietf.org/doc/rfc7450/) multicast traffic these days have more probability to occur across links where this traffic would share bottlenecks with other unicast traffic. However, this amount of traffic is still normally bit-rate bound so it might be considered just in-elastic and consuming the bit-rate it does. \r\n\r\nI also want to state that I am fine with declaring multicast out of scope, but maybe some information about that there exist algorithms should be includeded in the draft. So an explicit out of scope with some background section/appendix. ",
+          "createdAt": "2023-11-07T10:20:37Z",
+          "updatedAt": "2023-11-07T10:20:37Z"
+        }
+      ]
+    },
+    {
+      "number": 41,
+      "id": "I_kwDOI7aIXc52EoO-",
+      "title": "Don't Panic!",
+      "url": "https://github.com/ietf-wg-ccwg/rfc5033bis/issues/41",
+      "state": "OPEN",
+      "author": "martinduke",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "editorial"
+      ],
+      "body": "Add some text to indicate that proponents don't need a complete report on all the criteria before coming to IETF. They can arrive having thought about these problems a little and have a willingness to do the work implied in this draft.",
+      "createdAt": "2023-11-07T09:35:12Z",
+      "updatedAt": "2023-11-07T09:35:39Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 42,
+      "id": "I_kwDOI7aIXc52EwMK",
+      "title": "Explicit Bound on Self-induced loss?",
+      "url": "https://github.com/ietf-wg-ccwg/rfc5033bis/issues/42",
+      "state": "OPEN",
+      "author": "martinduke",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "@mattmathis proposes having a fixed bound on self-induced loss. Maybe 0.5, 1, or 2%",
+      "createdAt": "2023-11-07T09:51:20Z",
+      "updatedAt": "2023-11-07T10:03:34Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "martinduke",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Lars at mic: this is too new-fangled for a BCP.",
+          "createdAt": "2023-11-07T10:03:34Z",
+          "updatedAt": "2023-11-07T10:03:34Z"
         }
       ]
     }
@@ -2420,6 +2533,42 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 43,
+      "id": "PR_kwDOI7aIXc5eyWwk",
+      "title": "Added venue header to generate about this document section.",
+      "url": "https://github.com/ietf-wg-ccwg/rfc5033bis/pull/43",
+      "state": "MERGED",
+      "author": "gloinul",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-11-07T10:04:57Z",
+      "updatedAt": "2023-11-07T13:03:29Z",
+      "baseRepository": "ietf-wg-ccwg/rfc5033bis",
+      "baseRefName": "main",
+      "baseRefOid": "ed3e6416525e2e5563ad03f9aff03f624425fdc6",
+      "headRepository": "gloinul/rfc5033bis",
+      "headRefName": "venue",
+      "headRefOid": "00fa19a76d646f773a358ca1a07a55bbd2162ad4",
+      "closedAt": "2023-11-07T10:10:09Z",
+      "mergedAt": "2023-11-07T10:10:09Z",
+      "mergedBy": "martinduke",
+      "mergeCommit": {
+        "oid": "5a4fd57e315bb86a8bbf205522098f65954d712c"
+      },
+      "comments": [
+        {
+          "author": "ekinnear",
+          "authorAssociation": "NONE",
+          "body": "Thank you @gloinul!",
+          "createdAt": "2023-11-07T10:10:28Z",
+          "updatedAt": "2023-11-07T10:10:28Z"
+        }
+      ],
+      "reviews": []
     }
   ]
 }
