@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-11-09T00:35:54.854474+00:00",
+  "timestamp": "2023-11-12T00:38:48.255823+00:00",
   "repo": "ietf-wg-ccwg/rfc5033bis",
   "labels": [
     {
@@ -992,6 +992,22 @@
           "updatedAt": "2023-11-07T10:03:34Z"
         }
       ]
+    },
+    {
+      "number": 44,
+      "id": "I_kwDOI7aIXc52Zaks",
+      "title": "Add a section on CCA development  lifecycle",
+      "url": "https://github.com/ietf-wg-ccwg/rfc5033bis/issues/44",
+      "state": "OPEN",
+      "author": "mattmathis",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Replace all or part of section 2, \"document status\" with a new section on CCA development lifecycles.   Include the following major phases and constraints.\r\n\r\nPilot (private evaluation)\r\n - Authors MUST maintain full control and the ability to withdraw all instances\r\n - Sources and binaries are not published outside of the author's domain\r\n - It includes instrumentation for data rate, loss, delay , ECN marking, etc\r\n - And infrastructure to harvest telemetry from all instances\r\n - Continuous A/B testing against legacy algorithms\r\n - Include methods for estimating impact on other protocols and algorithms \r\n - I-D published and revised as the pilot matures\r\n\r\nPre-deployment and public evaluation\r\n - Published sources\r\n - Opt-in usage only\r\n - I-D kept up-to-date and progresses towards RFC (experimental or info status)\r\n - Authors maintain instrumentation, telemetry and continuous A/B testing for early adopters\r\n - Widespread evaluation by the broader community\r\n   - A/B testing\r\n   - Testing in challenging and unexpected network environments\r\n - Open a wiki evaluation doc\r\n  - Conformance statement for RFC5033bis (this doc)\r\n  - Summaries and references of external evaluations\r\n    - Including details necessary for others to duplicate to expand on the experiments\r\n  - If there are algorithm changes, add appropriate annotation to older reports and solicit updated results\r\n\r\nApproval for wider deployment\r\n - Requires RFC publication(s) covering:\r\n  - Algorithm spec\r\n  - Snapshot of the evaluation wiki\r\n  - Deployment guidelines\r\n     - Most important question: Is it safe for unattended use by non-experts?\r\n - Preserve (and maintain) the pre deployment implementation as a reference for future conformance testing.\r\n - Evaluation wiki lives on to capture unexpected events or problems discovered later\r\n",
+      "createdAt": "2023-11-09T20:43:01Z",
+      "updatedAt": "2023-11-09T20:43:01Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
