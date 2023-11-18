@@ -43,7 +43,7 @@ About This Document
    https://www.ietf.org/mailman/listinfo/ccwg/.
 
    Source for this draft and an issue tracker can be found at
-   https://github.com/mattmathis/rfc5033bis.
+   https://github.com/ietf-wg-ccwg/rfc5033bis.
 
 Status of This Memo
 
